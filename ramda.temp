@@ -1,0 +1,6 @@
+#convert pasted cookie to string list
+const splitted = R.map(R.trim, R.split(';', foo));
+
+#parse sorting word
+const foo = 'latestData.quality,desc'
+R.split(',',R.split('.', foo)[1])[0]
