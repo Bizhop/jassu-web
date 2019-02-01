@@ -1,9 +1,9 @@
-import React from "react"
-import R from "ramda"
-import { NavLink } from "react-router-dom"
-import { connect } from "react-redux"
+import React from 'react'
+import R from 'ramda'
+import { NavLink } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-import { logout } from "../user/userActions"
+import { logout, autoLogin } from '../user/userActions'
 
 const Header = props => (
   <div>
@@ -16,13 +16,20 @@ const Header = props => (
             </NavLink>
           </div>
           {props.loggedIn && (
-            <div className="col-md-4 col-xs-12 pull-right">
-              <div className="row">
-                <div className="col-md-6 col-xs-6">{props.loggedIn.email}</div>
-                <div className="col-md-6 col-xs-6">
-                  <button onClick={() => props.logout()} className="btn btn-primary">
-                    Kirjaudu ulos
-                  </button>
+            <div>
+              <div className="col-md-1 col-xs-12">
+                <NavLink to="/poker" className="nav-link nav-item" activeClassName="active">
+                  Pokeri
+                </NavLink>
+              </div>
+              <div className="col-md-4 col-xs-12 pull-right">
+                <div className="row">
+                  <div className="col-md-6 col-xs-6">{props.loggedIn}</div>
+                  <div className="col-md-6 col-xs-6">
+                    <button onClick={() => props.logout()} className="btn btn-primary">
+                      Kirjaudu ulos
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -34,11 +41,12 @@ const Header = props => (
 )
 
 const mapStateToProps = state => ({
-  loggedIn: R.path(["user", "token"], state),
+  loggedIn: R.path(['user', 'email'], state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(logout())
+  autoLogin: dispatch(autoLogin()),
+  logout: () => dispatch(logout()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header)

@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 
 export const RenderTextInput = ({ input, label, type, meta: { touched, error } }) => (
   <div className="form-group form-inline">

@@ -1,8 +1,9 @@
-import React from "react"
-import { Route, Switch } from "react-router-dom"
+import React from 'react'
+import { Route, Switch } from 'react-router-dom'
 
-import Header from "./shared/Header"
-import DashContainer from "./dash/DashContainer"
+import Header from './shared/Header'
+import DashContainer from './dash/DashContainer'
+import PokerContainer from './poker/PokerContainer'
 
 const NotFound = () => (
   <div className="container">
@@ -16,6 +17,7 @@ const Routes = () => (
   <div className="container pt-5">
     <Switch>
       <Route exact path="/" component={DashContainer} />
+      <Route exact path="/poker" component={PokerContainer} />
       <Route component={NotFound} />
     </Switch>
   </div>

@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 
 const ThWithButton = props => (
   <th>
@@ -8,7 +8,7 @@ const ThWithButton = props => (
         onClick={() =>
           props.update({
             sort: props.sort,
-            newSortColumn: props.label
+            newSortColumn: props.label,
           })}
         disabled={props.sortColumn === props.label}
       >
