@@ -61,6 +61,7 @@
     "redux-saga": "0.15.6",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",
+    "unicode-playing-card-converter": "1.2.0",
     "url-loader": "^0.6.2",
     "webpack": "3.5.5",
     "webpack-dev-server": "2.7.1"

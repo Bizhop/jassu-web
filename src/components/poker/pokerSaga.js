@@ -5,7 +5,7 @@ import { DEAL, dealSuccess, dealFailure } from './pokerActions'
 
 function* dealSaga(action) {
   try {
-    const response = yield call(Api.getRaw, 'api/poker/deal')
+    const response = yield call(Api.get, 'api/poker/deal')
     yield put(dealSuccess(response))
   } catch (e) {
     yield put(dealFailure(e))
