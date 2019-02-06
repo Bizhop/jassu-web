@@ -1,5 +1,5 @@
 import React from 'react'
-import R from 'ramda'
+import { path } from 'ramda'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 
@@ -41,7 +41,7 @@ const Header = props => (
 )
 
 const mapStateToProps = state => ({
-  loggedIn: R.path(['user', 'email'], state),
+  loggedIn: path(['user', 'email'], state),
 })
 
 const mapDispatchToProps = dispatch => ({

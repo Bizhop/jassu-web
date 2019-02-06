@@ -1,6 +1,6 @@
 import { LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT } from './userActions'
 
-import R from 'ramda'
+import { path } from 'ramda'
 
 const initialState = {
   email: null,
@@ -20,8 +20,8 @@ const userReducer = (state = initialState, action) => {
     case LOGIN_SUCCESS:
       return {
         ...state,
-        email: R.path(['user', 'email'], action),
-        money: R.path(['user', 'money'], action),
+        email: path(['user', 'email'], action),
+        money: path(['user', 'money'], action),
         error: null,
       }
     default:

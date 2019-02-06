@@ -1,12 +1,12 @@
 import axios from 'axios'
-import R from 'ramda'
+import { merge } from 'ramda'
 
 const Api = {
   get(url, opts) {
     return axios
       .get(
         url,
-        R.merge(
+        merge(
           {
             headers: { Authorization: localStorage.getItem('jassu-token') },
           },
@@ -23,7 +23,7 @@ const Api = {
       .post(
         url,
         data,
-        R.merge(
+        merge(
           {
             headers: { Authorization: localStorage.getItem('jassu-token') },
           },
@@ -37,7 +37,7 @@ const Api = {
       .put(
         url,
         data,
-        R.merge(
+        merge(
           {
             headers: { Authorization: localStorage.getItem('jassu-token') },
           },
@@ -51,7 +51,7 @@ const Api = {
       .patch(
         url,
         data,
-        R.merge(
+        merge(
           {
             headers: { Authorization: localStorage.getItem('jassu-token') },
           },
@@ -63,7 +63,7 @@ const Api = {
   delete(url, opts) {
     return axios.delete(
       url,
-      R.merge(
+      merge(
         {
           headers: { Authorization: localStorage.getItem('jassu-token') },
         },

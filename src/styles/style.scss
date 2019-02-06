@@ -29,7 +29,18 @@ div.rai-spinner {
 }
 
 div.card {
-  font-size: 400%;
+  font-size: 200%;
+  text-align: center;
+  border: 1px solid black;
+  margin-left: 5px;
+}
+
+div.cards {
+  margin-top: 5px;
+}
+
+div.action-buttons {
+  margin-top: 10px;
 }
 
 div.red {
@@ -38,6 +49,10 @@ div.red {
 
 div.black {
   color: black;
+}
+
+div.held {
+  background-color: lightgrey;
 }
 
 img.image100 {

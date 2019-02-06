@@ -1,5 +1,5 @@
 import React from 'react'
-import R from 'ramda'
+import { path } from 'ramda'
 import { connect } from 'react-redux'
 import GoogleLogin from 'react-google-login'
 
@@ -33,8 +33,8 @@ const DashContainer = props => (
 )
 
 const mapStateToProps = state => ({
-  user: R.path(['user'], state),
-  error: R.path(['user', 'error'], state),
+  user: path(['user'], state),
+  error: path(['user', 'error'], state),
 })
 
 const mapDispatchToProps = dispatch => ({
