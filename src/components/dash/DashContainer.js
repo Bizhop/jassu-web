@@ -21,7 +21,7 @@ const DashContainer = props => (
       </div>
     ) : (
       <GoogleLogin
-        clientId="107543052765-lfgp4lke6h51a0l4kp258anilpeegf8v.apps.googleusercontent.com"
+        clientId="266150004835-ijh2ibgdsa9timu7cmak0udc76hnhldb.apps.googleusercontent.com"
         buttonText="Kirjaudu sisään"
         className="btn btn-danger"
         onSuccess={props.login}
