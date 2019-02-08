@@ -6,7 +6,7 @@
   },
   "proxies": {
     "/api/": {
-      "origin": "https://jassu.herokuapp.com/api"
+      "origin": "https://jassu-backend.herokuapp.com/api"
     }
   }
 }
