@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import { path, includes, isEmpty } from 'ramda'
 import converter from 'unicode-playing-card-converter'
 
@@ -9,10 +10,12 @@ const actions = [
   {
     value: 'STAY',
     label: 'Jää',
+    style: 'btn-warning'
   },
   {
     value: 'HOLD',
     label: 'Jatka',
+    style: 'btn-success'
   },
 ]
 
@@ -20,13 +23,6 @@ const PokerContainer = props => (
   <div className="container">
     <h1>Pokeri</h1>
     <h2>Massia: {props.userMoney || props.user.money}</h2>
-    <div className="row">
-      <div className="col-md-6 col-xs-6">
-        <button onClick={() => props.deal()} className="btn btn-primary">
-          Jaa
-        </button>
-      </div>
-    </div>
     {props.game && (
       <div>
         <div className="row cards">
@@ -53,8 +49,7 @@ const PokerContainer = props => (
         <div className="row">
           {actions.map(a => (
             <ActionButton
-              actionValue={a.value}
-              label={a.label}
+              actionProps={a}
               game={props.game}
               key={a.value}
               action={props.action}
@@ -64,21 +59,50 @@ const PokerContainer = props => (
         </div>
       </div>
     )}
+    {(!props.game || isEmpty(props.game.availableActions)) && (
+      <div className="row">
+        <div className="col-md-6 col-xs-6">
+          <button onClick={() => props.deal()} className="btn btn-primary">
+            Jaa
+          </button>
+        </div>
+      </div>
+    )}
+    {props.multipliers && (
+      <table className="table table-striped">
+        <thead>
+        <tr>
+          <th>Käsi</th>
+          <th>Kerroin</th>
+        </tr>
+        </thead>
+        <tbody>
+        {props.multipliers.map(m => (
+          <tr key={m.name}>
+            <td>{m.name}</td>
+            <td>{m.value}</td>
+          </tr>
+        ))}
+        </tbody>
+      </table>
+    )}
+    {!props.user.email && <Redirect to="/" />}
   </div>
 )
 
 const ActionButton = props => {
-  return includes(props.actionValue, props.game.availableActions) ? (
+  return includes(props.actionProps.value, props.game.availableActions) ? (
     <div className="col-md-2 col-xs-2">
       <button
+        className={`btn ${props.actionProps.style}`}
         onClick={() =>
           props.action({
             game: props.game,
-            action: props.actionValue,
+            action: props.actionProps.value,
             holds: props.holds
           })}
       >
-        {props.label}
+        {props.actionProps.label}
       </button>
     </div>
   ) : null
@@ -89,7 +113,8 @@ const mapStateToProps = state => ({
   error: path(['user', 'error'], state),
   game: path(['poker', 'game'], state),
   holds: path(['poker', 'holds'], state),
-  userMoney: path(['poker', 'userMoney'], state)
+  userMoney: path(['poker', 'userMoney'], state),
+  multipliers: path(['poker', 'game', 'multipliersTable'], state)
 })
 
 const mapDispatchToProps = dispatch => ({
