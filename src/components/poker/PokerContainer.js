@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { path, includes, isEmpty } from 'ramda'
-import converter from 'unicode-playing-card-converter'
 
 import { deal, toggleHold, action } from './pokerActions'
 
@@ -27,15 +26,15 @@ const PokerContainer = props => (
       <div>
         <div className="row cards">
           {props.game.hand.map((card, index) => {
-            const color = card.endsWith('c') || card.endsWith('s') ? 'black' : 'red'
+            //const color = card.endsWith('c') || card.endsWith('s') ? 'black' : 'red'
             const held = includes(index, props.holds) ? 'held' : ''
             return (
               <div
-                className={`col-md-2 col-xs-2 card ${color} ${held}`}
+                className={`col-md-2 col-xs-2 card ${held}`}
                 key={card}
                 onClick={() => props.toggleHold(index)}
               >
-                {converter(card)}
+                <CardImage name={card} />
               </div>
             )
           })}
@@ -69,7 +68,9 @@ const PokerContainer = props => (
       </div>
     )}
     {props.multipliers && (
-      <table className="table table-striped">
+      <div className="row">
+      <div className="col-md-12 col-xs-12">
+      <table className="table table-striped custom-table">
         <thead>
         <tr>
           <th>Käsi</th>
@@ -85,6 +86,8 @@ const PokerContainer = props => (
         ))}
         </tbody>
       </table>
+      </div>
+      </div>
     )}
     {!props.user.email && <Redirect to="/" />}
   </div>
@@ -106,6 +109,13 @@ const ActionButton = props => {
       </button>
     </div>
   ) : null
+}
+
+const CardImage = props => {
+  const image = require('../../assets/' + props.name + '.svg')
+  return (
+    <img src={image} className="img-responsive"/>
+  )
 }
 
 const mapStateToProps = state => ({

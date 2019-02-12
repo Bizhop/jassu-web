@@ -22,15 +22,10 @@ const Header = props => (
                   Pokeri
                 </NavLink>
               </div>
-              <div className="col-md-4 col-xs-12 pull-right">
-                <div className="row">
-                  <div className="col-md-6 col-xs-6">{props.loggedIn}</div>
-                  <div className="col-md-6 col-xs-6">
+                  <div className="col-md-1 col-xs-12 pull-right">
                     <button onClick={() => props.logout()} className="btn btn-primary">
                       Kirjaudu ulos
                     </button>
-                  </div>
-                </div>
               </div>
             </div>
           )}
