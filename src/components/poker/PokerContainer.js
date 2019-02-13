@@ -8,7 +8,7 @@ import { deal, toggleHold, action } from './pokerActions'
 const actions = [
   {
     value: 'STAY',
-    label: 'Jää',
+    label: 'Lopeta',
     style: 'btn-warning'
   },
   {
@@ -19,12 +19,12 @@ const actions = [
   {
     value: 'DOUBLE_HIGH',
     label: 'Suuri',
-    style: 'btn-info btn-sm'
+    style: 'btn-danger btn-sm'
   },
   {
     value: 'DOUBLE_LOW',
     label: 'Pieni',
-    style: 'btn-info btn-sm'
+    style: 'btn-danger btn-sm'
   },
 ]
 
@@ -36,15 +36,15 @@ const PokerContainer = props => (
       <div>
         <div className="row cards">
           {props.game.hand.map((card, index) => {
-            //const color = card.endsWith('c') || card.endsWith('s') ? 'black' : 'red'
             const held = includes(index, props.holds) ? 'held' : ''
             return (
               <div
-                className={`col-md-2 col-xs-2 card ${held}`}
+                className={`col-md-2 col-xs-2 card`}
                 key={card}
-                onClick={() => props.toggleHold(index)}
+                onClick={() => includes('HOLD', props.game.availableActions) && props.toggleHold(index)}
               >
                 <CardImage name={card} />
+                <div className={`overlay ${held}`} />
               </div>
             )
           })}

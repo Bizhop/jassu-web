@@ -19,11 +19,17 @@ const sortAsc = sort((a, b) => a - b)
 const pokerReducer = (state = initialState, action) => {
   switch (action.type) {
     case DEAL_SUCCESS:
+    return {
+      ...state,
+      game: action.response,
+      holds: [],
+      userMoney: action.response.userMoney
+    }
     case ACTION_SUCCESS:
       return {
         ...state,
+        holds: includes('HOLD', state.game.availableActions) ? state.holds : [],
         game: action.response,
-        holds: [],
         userMoney: action.response.userMoney
       }
     case TOGGLE_HOLD:

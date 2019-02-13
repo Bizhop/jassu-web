@@ -29,7 +29,7 @@ div.rai-spinner {
 
 div.card {
   text-align: center;
-  margin-left: 5px;
+  padding: 5px;
 }
 
 div.cards {
@@ -40,16 +40,20 @@ div.action-buttons {
   margin-top: 10px;
 }
 
-div.red {
-  color: red;
-}
-
-div.black {
-  color: black;
+div.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 5%;
+  right: 0;
+  height: 15%;
+  width: 90%;
+  opacity: 0;
+  background-color: yellow;
 }
 
 div.held {
-  background-color: lightgrey;
+  opacity: 0.6;
 }
 
 img.image100 {
