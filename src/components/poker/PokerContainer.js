@@ -16,6 +16,16 @@ const actions = [
     label: 'Jatka',
     style: 'btn-success'
   },
+  {
+    value: 'DOUBLE_HIGH',
+    label: 'Suuri',
+    style: 'btn-info btn-sm'
+  },
+  {
+    value: 'DOUBLE_LOW',
+    label: 'Pieni',
+    style: 'btn-info btn-sm'
+  },
 ]
 
 const PokerContainer = props => (
