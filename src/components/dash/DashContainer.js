@@ -15,7 +15,7 @@ const DashContainer = props => (
           <div className="col-md-5">{props.user.email}</div>
         </div>
         <div className="row">
-          <div className="col-md-2">Money</div>
+          <div className="col-md-2">Massia</div>
           <div className="col-md-5">{props.user.money}</div>
         </div>
       </div>
