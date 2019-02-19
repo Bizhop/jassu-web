@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom'
 import { path, includes, isEmpty } from 'ramda'
 
 import { deal, toggleHold, action } from './pokerActions'
+import { autoLogin } from '../user/userActions'
 
 const actions = [
   {
@@ -138,6 +139,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  autoLogin: dispatch(autoLogin()),
   deal: () => dispatch(deal()),
   toggleHold: index => dispatch(toggleHold(index)),
   action: params => dispatch(action(params)),

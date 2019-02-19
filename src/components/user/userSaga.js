@@ -26,6 +26,7 @@ function* autoLoginSaga(action) {
         Authorization: token,
       },
     })
+    localStorage.setItem('jassu-token', response.jwt)
     yield put(loginSuccess(response))
   } catch (e) {
     yield put(loginError(e))

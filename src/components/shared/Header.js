@@ -40,7 +40,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  autoLogin: dispatch(autoLogin()),
   logout: () => dispatch(logout()),
 })
 
