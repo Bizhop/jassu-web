@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 import Header from './shared/Header'
 import DashContainer from './dash/DashContainer'
 import PokerContainer from './poker/PokerContainer'
+import KirvesContainer from './kirves/KirvesContainer'
 
 const NotFound = () => (
   <div className="container">
@@ -18,6 +19,7 @@ const Routes = () => (
     <Switch>
       <Route exact path="/" component={DashContainer} />
       <Route exact path="/poker" component={PokerContainer} />
+      <Route exact path="/kirves" component={KirvesContainer} />
       <Route component={NotFound} />
     </Switch>
   </div>

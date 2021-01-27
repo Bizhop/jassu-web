@@ -22,10 +22,15 @@ const Header = props => (
                   Pokeri
                 </NavLink>
               </div>
-                  <div className="col-md-1 col-xs-12 pull-right">
-                    <button onClick={() => props.logout()} className="btn btn-primary">
-                      Kirjaudu ulos
-                    </button>
+              <div className="col-md-1 col-xs-12">
+                <NavLink to="/kirves" className="nav-link nav-item" activeClassName="active">
+                  Kirves
+                </NavLink>
+              </div>
+              <div className="col-md-1 col-xs-12 pull-right">
+                <button onClick={() => props.logout()} className="btn btn-primary">
+                  Kirjaudu ulos
+                </button>
               </div>
             </div>
           )}
