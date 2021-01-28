@@ -5,6 +5,9 @@ import {
   INIT,
   initSuccess,
   initFailure,
+  GET_GAME,
+  getGameSuccess,
+  getGameFailure
 } from './kirvesActions'
 
 function* initSaga() {
@@ -16,8 +19,18 @@ function* initSaga() {
   }
 }
 
+function* getGame(action) {
+  try {
+    const gameId = action.gameId
+    const response = yield call(Api.get, `api/kirves/${gameId}`)
+    yield put(getGameSuccess(response))
+  } catch (e) {
+    yield put(getGameFailure(e))
+  }
+}
+
 function* kirvesSaga() {
-  yield [takeEvery(INIT, initSaga)]
+  yield [takeEvery(INIT, initSaga), takeEvery(GET_GAME, getGame)]
 }
 
 export default kirvesSaga
