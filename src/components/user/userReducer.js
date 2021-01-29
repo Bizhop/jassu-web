@@ -14,7 +14,7 @@ const userReducer = (state = initialState, action) => {
     case LOGIN_FAILURE:
       localStorage.removeItem('jassu-token')
       return {
-        ...initialState
+        ...initialState,
       }
     case LOGIN_SUCCESS:
       return {

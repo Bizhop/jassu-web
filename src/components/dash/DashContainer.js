@@ -43,4 +43,7 @@ const mapDispatchToProps = dispatch => ({
   loginError: response => dispatch(loginError(response)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DashContainer)

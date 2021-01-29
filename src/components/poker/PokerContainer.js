@@ -10,29 +10,29 @@ const actions = [
   {
     value: 'STAY',
     label: 'Lopeta',
-    style: 'btn-warning'
+    style: 'btn-warning',
   },
   {
     value: 'HOLD',
     label: 'Jatka',
-    style: 'btn-success'
+    style: 'btn-success',
   },
   {
     value: 'DOUBLE_HIGH',
     label: 'Suuri',
-    style: 'btn-danger btn-sm'
+    style: 'btn-danger btn-sm',
   },
   {
     value: 'DOUBLE_LOW',
     label: 'Pieni',
-    style: 'btn-danger btn-sm'
+    style: 'btn-danger btn-sm',
   },
 ]
 
 const PokerContainer = props => (
   <div className="container">
     <h1>Pokeri</h1>
-    <h2>Massia: {props.userMoney || props.user.money}</h2>
+    <h2>Massia: {props.userMoney || props.user.money}</h2>
     {props.game && (
       <div>
         <div className="row cards">
@@ -42,7 +42,9 @@ const PokerContainer = props => (
               <div
                 className={`col-md-2 col-xs-2 card`}
                 key={card}
-                onClick={() => includes('HOLD', props.game.availableActions) && props.toggleHold(index)}
+                onClick={() =>
+                  includes('HOLD', props.game.availableActions) && props.toggleHold(index)
+                }
               >
                 <CardImage name={card} />
                 <div className={`overlay ${held}`} />
@@ -52,9 +54,10 @@ const PokerContainer = props => (
         </div>
         <div className="row">
           <div className="col-md-6 col-xs-6">{props.game.handValue}</div>
-          <div className="col-md-6 col-xs-6">{
-            isEmpty(props.game.availableActions) ? 'Voitto: ' : 'Panos: '
-          }{props.game.money}</div>
+          <div className="col-md-6 col-xs-6">
+            {isEmpty(props.game.availableActions) ? 'Voitto: ' : 'Panos: '}
+            {props.game.money}
+          </div>
         </div>
         <div className="row">
           {actions.map(a => (
@@ -69,7 +72,7 @@ const PokerContainer = props => (
         </div>
       </div>
     )}
-    {(!props.game || isEmpty(props.game.availableActions)) && (
+    {(!props.game || isEmpty(props.game.availableActions)) && (
       <div className="row">
         <div className="col-md-6 col-xs-6">
           <button onClick={() => props.deal()} className="btn btn-primary">
@@ -80,24 +83,24 @@ const PokerContainer = props => (
     )}
     {props.multipliers && (
       <div className="row">
-      <div className="col-md-12 col-xs-12">
-      <table className="table table-striped custom-table">
-        <thead>
-        <tr>
-          <th>Käsi</th>
-          <th>Kerroin</th>
-        </tr>
-        </thead>
-        <tbody>
-        {props.multipliers.map(m => (
-          <tr key={m.name}>
-            <td>{m.name}</td>
-            <td>{m.value}</td>
-          </tr>
-        ))}
-        </tbody>
-      </table>
-      </div>
+        <div className="col-md-12 col-xs-12">
+          <table className="table table-striped custom-table">
+            <thead>
+              <tr>
+                <th>Käsi</th>
+                <th>Kerroin</th>
+              </tr>
+            </thead>
+            <tbody>
+              {props.multipliers.map(m => (
+                <tr key={m.name}>
+                  <td>{m.name}</td>
+                  <td>{m.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     )}
     {!props.user.email && <Redirect to="/" />}
@@ -113,8 +116,9 @@ const ActionButton = props => {
           props.action({
             game: props.game,
             action: props.actionProps.value,
-            holds: props.holds
-          })}
+            holds: props.holds,
+          })
+        }
       >
         {props.actionProps.label}
       </button>
@@ -124,9 +128,7 @@ const ActionButton = props => {
 
 const CardImage = props => {
   const image = require('../../assets/' + props.name + '.svg')
-  return (
-    <img src={image} className="img-responsive"/>
-  )
+  return <img src={image} className="img-responsive" />
 }
 
 const mapStateToProps = state => ({
@@ -135,7 +137,7 @@ const mapStateToProps = state => ({
   game: path(['poker', 'game'], state),
   holds: path(['poker', 'holds'], state),
   userMoney: path(['poker', 'userMoney'], state),
-  multipliers: path(['poker', 'game', 'multipliersTable'], state)
+  multipliers: path(['poker', 'game', 'multipliersTable'], state),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -145,4 +147,7 @@ const mapDispatchToProps = dispatch => ({
   action: params => dispatch(action(params)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(PokerContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PokerContainer)

@@ -9,7 +9,8 @@ const ThWithButton = props => (
           props.update({
             sort: props.sort,
             newSortColumn: props.label,
-          })}
+          })
+        }
         disabled={props.sortColumn === props.label}
       >
         {props.label}

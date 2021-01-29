@@ -1,10 +1,10 @@
-export const DEAL = 'DEAL'
-export const DEAL_SUCCESS = 'DEAL_SUCCESS'
-export const DEAL_FAILURE = 'DEAL_FAILURE'
-export const TOGGLE_HOLD = 'TOGGLE_HOLD'
-export const ACTION = 'ACTION'
-export const ACTION_SUCCESS = 'ACTION_SUCCESS'
-export const ACTION_FAILURE = 'ACTION_FAILURE'
+export const DEAL = 'poker/DEAL'
+export const DEAL_SUCCESS = 'poker/DEAL_SUCCESS'
+export const DEAL_FAILURE = 'poker/DEAL_FAILURE'
+export const TOGGLE_HOLD = 'poker/TOGGLE_HOLD'
+export const ACTION = 'poker/ACTION'
+export const ACTION_SUCCESS = 'poker/ACTION_SUCCESS'
+export const ACTION_FAILURE = 'poker/ACTION_FAILURE'
 
 export const deal = () => ({
   type: DEAL,

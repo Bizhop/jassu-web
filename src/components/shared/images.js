@@ -20,7 +20,5 @@ export const minus =
 
 export const SvgImage = props => {
   const image = require('../../assets/' + props.name + '.svg')
-  return (
-    <img src={image} className="img-responsive" width={props.width} height={props.height} />
-  )
+  return <img src={image} onClick={props.onClick} className="img-responsive" width={props.width} height={props.height} />
 }

@@ -1,8 +1,8 @@
-export const AUTO_LOGIN = 'AUTO_LOGIN'
-export const LOGIN_REQUEST = 'LOGIN_REQUEST'
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const LOGIN_FAILURE = 'LOGIN_FAILURE'
-export const LOGOUT = 'LOGOUT'
+export const AUTO_LOGIN = 'user/AUTO_LOGIN'
+export const LOGIN_REQUEST = 'user/LOGIN_REQUEST'
+export const LOGIN_SUCCESS = 'user/LOGIN_SUCCESS'
+export const LOGIN_FAILURE = 'user/LOGIN_FAILURE'
+export const LOGOUT = 'user/LOGOUT'
 
 export const autoLogin = () => ({
   type: AUTO_LOGIN,

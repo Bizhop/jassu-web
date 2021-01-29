@@ -11,7 +11,7 @@ import { ifElse, includes, compose, reject, append, sort } from 'ramda'
 const initialState = {
   game: null,
   holds: [],
-  userMoney: null
+  userMoney: null,
 }
 
 const sortAsc = sort((a, b) => a - b)
@@ -19,18 +19,18 @@ const sortAsc = sort((a, b) => a - b)
 const pokerReducer = (state = initialState, action) => {
   switch (action.type) {
     case DEAL_SUCCESS:
-    return {
-      ...state,
-      game: action.response,
-      holds: [],
-      userMoney: action.response.userMoney
-    }
+      return {
+        ...state,
+        game: action.response,
+        holds: [],
+        userMoney: action.response.userMoney,
+      }
     case ACTION_SUCCESS:
       return {
         ...state,
         holds: includes('HOLD', state.game.availableActions) ? state.holds : [],
         game: action.response,
-        userMoney: action.response.userMoney
+        userMoney: action.response.userMoney,
       }
     case TOGGLE_HOLD:
       return {
@@ -38,7 +38,10 @@ const pokerReducer = (state = initialState, action) => {
         holds: ifElse(
           includes(action.value),
           reject(n => n === action.value),
-          compose(sortAsc, append(action.value)),
+          compose(
+            sortAsc,
+            append(action.value),
+          ),
         )(state.holds),
       }
     case DEAL_FAILURE:
