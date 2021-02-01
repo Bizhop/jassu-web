@@ -7,14 +7,6 @@ import { init, getGames } from './kirvesActions'
 import { autoLogin } from '../user/userActions'
 import { check, SvgImage } from '../shared/images'
 
-const printCards = cards => {
-  return cards.map(card => (
-    <div className="col-md-1 col-xs-1">
-      <SvgImage name={card} />
-    </div>
-  ))
-}
-
 const KirvesContainer = props => (
   <div className="container">
     <h1>Kirves</h1>

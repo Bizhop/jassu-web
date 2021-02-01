@@ -60,6 +60,10 @@ const KirvesGame = props => (
           <div className="col-md-3 col-xs-3">Omat kortit:</div>
           <Cards cards={props.game.myCardsInHand} action={props.action} gameId={props.game.id} />
         </div>
+        <div className="row">
+          <div className="col-md-3 col-xs-3">Valtti:</div>
+          <div className="col-md-1 col-xs-1"><SvgImage name={props.game.valtti} /></div>
+        </div>
         <h2>Pelaajat</h2>
         {props.game.players.map(player => (
           <div key={player.email}>
