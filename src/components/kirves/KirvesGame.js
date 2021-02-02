@@ -61,8 +61,8 @@ const KirvesGame = props => (
           <Cards cards={props.game.myCardsInHand} action={props.action} gameId={props.game.id} />
         </div>
         <div className="row">
-          <div className="col-md-3 col-xs-3">Valtti:</div>
-          <div className="col-md-1 col-xs-1"><SvgImage name={props.game.valtti} /></div>
+          <div className="col-md-3 col-xs-3">Valttikortti:</div>
+          <div className="col-md-1 col-xs-1"><SvgImage name={props.game.valttiKortti} /></div>
         </div>
         <h2>Pelaajat</h2>
         {props.game.players.map(player => (
