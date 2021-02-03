@@ -12,6 +12,7 @@ const Cards = props => (
     {props.cards.map((card, i) => (
       <div className="col-md-1 col-xs-1" key={`card-${card}`}>
         <SvgImage name={card} onClick={() => props.action({gameId:props.gameId, action:'PLAY_CARD', index:i})} />
+        {props.roundsWon.includes(i) && (<p>X</p>)}
       </div>
     ))}
   </div>
@@ -58,7 +59,7 @@ const KirvesGame = props => (
         </div>
         <div className="row">
           <div className="col-md-3 col-xs-3">Omat kortit:</div>
-          <Cards cards={props.game.myCardsInHand} action={props.action} gameId={props.game.id} />
+          <Cards cards={props.game.myCardsInHand} action={props.action} gameId={props.game.id} roundsWon={[]} />
         </div>
         <div className="row">
           <div className="col-md-3 col-xs-3">Valttikortti:</div>
@@ -74,7 +75,7 @@ const KirvesGame = props => (
             </div>
             <div className="row">
               <div className="col-md-3 col-xs-3">Pelatut kortit:</div>
-              <Cards cards={player.playedCards} />
+              <Cards cards={player.playedCards} roundsWon={player.roundsWon} />
             </div>
           </div>
         ))}
