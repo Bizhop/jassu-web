@@ -23,6 +23,16 @@ img.on-table {
   height: 20px;
 }
 
+img.card-back {
+  position: absolute;
+  top: 0;
+  height: 100%;
+}
+
+img.card-back:hover {
+  display: none;
+}
+
 div.rai-spinner {
   margin: 10px;
 }
