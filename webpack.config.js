@@ -2,6 +2,7 @@ const Path = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const CleanWebpackPlugin = require("clean-webpack-plugin")
+const webpack = require("webpack")
 
 const extractSass = new ExtractTextPlugin({
   filename: "styles.[contenthash].css",
@@ -16,6 +17,10 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 })
 
 const CleanWebpackPluginConfig = new CleanWebpackPlugin(["dist"], {})
+
+const WebSocketUrlPlugin = new webpack.DefinePlugin({
+  WEB_SOCKET_URL: process.env.NODE_ENV === "development" ? JSON.stringify('http://localhost:8181/refresh') : JSON.stringify('https://jassu.herokuapp.com/refresh')
+})
 
 module.exports = {
   entry: ["babel-polyfill", "./src/index.js"],
@@ -70,7 +75,7 @@ module.exports = {
       }
     ]
   },
-  plugins: [HtmlWebpackPluginConfig, extractSass, CleanWebpackPluginConfig],
+  plugins: [HtmlWebpackPluginConfig, extractSass, CleanWebpackPluginConfig, WebSocketUrlPlugin],
   devServer: {
     // If you use Vagrant or Cloud9, set
     // host: '0.0.0.0';

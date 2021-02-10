@@ -63,7 +63,6 @@ function* actionSaga(action) {
       action: action.params.action,
       index: action.params.index,
     })
-    yield put(actionSuccess(response))
   } catch (e) {
     yield put(actionFailure(e))
   }

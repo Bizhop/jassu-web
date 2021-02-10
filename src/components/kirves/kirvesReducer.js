@@ -1,6 +1,6 @@
 import { path } from 'ramda'
 
-import { INIT_FAILURE, GET_GAME_SUCCESS, GET_GAMES_SUCCESS, GET_GAMES_FAILURE, JOIN_GAME_SUCCESS, ACTION_SUCCESS, JOIN_GAME_FAILURE } from './kirvesActions'
+import { INIT_FAILURE, GET_GAME_SUCCESS, GET_GAMES_SUCCESS, GET_GAMES_FAILURE, JOIN_GAME_SUCCESS, JOIN_GAME_FAILURE } from './kirvesActions'
 
 const initialState = {
   game: null,
@@ -11,7 +11,6 @@ const kirvesReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_GAME_SUCCESS:
     case JOIN_GAME_SUCCESS:
-    case ACTION_SUCCESS:  
       return {
         ...state,
         game: action.response,
