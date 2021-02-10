@@ -19,7 +19,7 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 const CleanWebpackPluginConfig = new CleanWebpackPlugin(["dist"], {})
 
 const WebSocketUrlPlugin = new webpack.DefinePlugin({
-  WEB_SOCKET_URL: process.env.NODE_ENV === "development" ? JSON.stringify('http://localhost:8181/refresh') : JSON.stringify('https://jassu.herokuapp.com/refresh')
+  WEB_SOCKET_URL: process.env.NODE_ENV === "development" ? JSON.stringify('http://localhost:8181/refresh') : JSON.stringify('https://jassu-backend.herokuapp.com/refresh')
 })
 
 module.exports = {
