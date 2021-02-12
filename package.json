@@ -4,7 +4,7 @@
   "main": "index.js",
   "author": "Ville Piispa <ville.piispa@gmail.com>",
   "scripts": {
-    "start": "NODE_ENV=development webpack-dev-server --hot --inline",
+    "start": "NODE_ENV=development JASSU_WEB_SOCKET_URL=http://localhost:8181/refresh webpack-dev-server --hot --inline",
     "build": "webpack",
     "lint": "eslint src --ext js --ext .jsx",
     "format": "prettier --print-width 100 --no-semi --single-quote true --trailing-comma all --write 'src/**/*.js'",
