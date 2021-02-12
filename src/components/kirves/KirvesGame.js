@@ -14,12 +14,20 @@ const Cards = props => (
       <div className="col-md-1 col-xs-1" key={`card-${card}`}>
         <SvgImage name={card} className="img-responsive" onClick={() => props.action({gameId:props.gameId, action:'PLAY_CARD', index:i})} />
         {props.roundsWon.includes(i) && (
-          <SvgImage name="back" className="img-responsive card-back" />
+          <SvgImage name="back" className="img-responsive card-back" onClick={event => hideForSeconds(event, 1.5)} />
         )}
       </div>
     ))}
   </div>
 )
+
+function hideForSeconds(event, time) {
+  const element = event.target
+  element.classList.add('hidden')
+  setTimeout(() => {
+    element.classList.remove('hidden')
+  }, time * 1000)
+}
 
 const KirvesGame = props => (
   <div className="container">
@@ -84,7 +92,7 @@ const KirvesGame = props => (
             </div>
             <div className="row">
               <div className="col-md-3 col-xs-3">Pelatut kortit:</div>
-              <Cards cards={player.playedCards} roundsWon={player.roundsWon} />
+              <Cards cards={player.playedCards} roundsWon={player.roundsWon} action={() => {}} />
             </div>
           </div>
         ))}
