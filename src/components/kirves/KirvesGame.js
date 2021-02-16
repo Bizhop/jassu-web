@@ -14,12 +14,26 @@ const Cards = props => (
       <div className="col-md-1 col-xs-1" key={`card-${card}`}>
         <SvgImage name={card} className="img-responsive" onClick={() => props.action({gameId:props.gameId, action:'PLAY_CARD', index:i})} />
         {props.roundsWon.includes(i) && (
-          <SvgImage name="back" className="img-responsive card-back" onClick={event => hideForSeconds(event, 1.5)} />
+          <BackCard lastCard={props.numOfPlayedRounds - 1 == i} />
         )}
       </div>
     ))}
   </div>
 )
+
+const BackCard = props => {
+  if(props.lastCard) {
+    setTimeout(() => {
+      const element = document.getElementsByClassName('last-card')[0]
+      if(element) {
+        element.classList.remove('last-card')
+      }
+    }, 1500)
+    return <SvgImage name="back" className="img-responsive card-back last-card" onClick={event => hideForSeconds(event, 1.5)} />
+  } else return (
+    <SvgImage name="back" className="img-responsive card-back" />
+  )
+}
 
 function hideForSeconds(event, time) {
   const element = event.target
@@ -92,7 +106,7 @@ const KirvesGame = props => (
             </div>
             <div className="row">
               <div className="col-md-3 col-xs-3">Pelatut kortit:</div>
-              <Cards cards={player.playedCards} roundsWon={player.roundsWon} action={() => {}} />
+              <Cards cards={player.playedCards} roundsWon={player.roundsWon} action={() => {}} numOfPlayedRounds={props.game.numOfPlayedRounds} />
             </div>
           </div>
         ))}
