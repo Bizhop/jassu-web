@@ -1,10 +1,10 @@
-import { path } from 'ramda'
+import { path, pick, map } from 'ramda'
 
 import { INIT_FAILURE, GET_GAME_SUCCESS, GET_GAMES_SUCCESS, GET_GAMES_FAILURE, JOIN_GAME_SUCCESS, JOIN_GAME_FAILURE } from './kirvesActions'
 
 const initialState = {
   game: null,
-  games: []
+  games: [],
 }
 
 const kirvesReducer = (state = initialState, action) => {
@@ -18,7 +18,7 @@ const kirvesReducer = (state = initialState, action) => {
     case GET_GAMES_SUCCESS:
       return {
         ...state,
-        games: action.response,
+        games: map(pick(['id', 'canJoin', 'players']), action.response),
       }
     case JOIN_GAME_FAILURE:
       alert(path(['error', 'response', 'data', 'message'], action))
