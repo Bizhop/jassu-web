@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { path } from 'ramda'
+import { path, includes } from 'ramda'
 import SockJsClient from 'react-stomp'
 
 import { getGame, joinGame, action } from './kirvesActions'
@@ -64,7 +64,7 @@ const KirvesGame = props => (
               </button>
             </div>
           )}
-          {props.game.canDeal && (
+          {includes('DEAL', props.game.myAvailableActions) && (
             <div className="col-md-3 col-xs-3">
               <button onClick={() => props.action({gameId:props.game.id, action:'DEAL'})} className="btn btn-primary">
                 Jaa
