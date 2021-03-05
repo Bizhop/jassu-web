@@ -12,7 +12,7 @@ const Cards = props => (
   <div>
     {props.cards.map((card, i) => (
       <div className="col-md-1 col-xs-1" key={`card-${card}`}>
-        <SvgImage name={card} className="img-responsive" onClick={() => props.action({gameId:props.gameId, action:'PLAY_CARD', index:i})} />
+        <SvgImage name={card} className="img-responsive" onClick={() => props.action({gameId:props.gameId, action:props.actionName, index:i})} />
         {props.roundsWon.includes(i) && (
           <BackCard lastCard={props.numOfPlayedRounds - 1 == i} />
         )}
@@ -71,6 +71,13 @@ const KirvesGame = props => (
               </button>
             </div>
           )}
+          {includes('CUT', props.game.myAvailableActions) && (
+            <div className="col-md-3 col-xs-3">
+              <button onClick={() => props.action({gameId:props.game.id, action:'CUT'})} className="btn btn-primary">
+                Nosta
+              </button>
+            </div>
+          )}
         </div>
         <div className="row">
           <div className="col-md-3 col-xs-3">Viesti:</div>
@@ -90,11 +97,21 @@ const KirvesGame = props => (
         </div>
         <div className="row">
           <div className="col-md-3 col-xs-3">Omat kortit:</div>
-          <Cards cards={props.game.myCardsInHand} action={props.action} gameId={props.game.id} roundsWon={[]} />
+          <Cards 
+            cards={props.game.myCardsInHand}
+            action={props.action}
+            gameId={props.game.id}
+            roundsWon={[]}
+            actionName={includes('DISCARD', props.game.myAvailableActions) ? 'DISCARD' : 'PLAY_CARD'}
+          />
         </div>
         <div className="row">
           <div className="col-md-3 col-xs-3">Valttikortti:</div>
           <div className="col-md-1 col-xs-1"><SvgImage name={props.game.valttiKortti} className="img-responsive" /></div>
+        </div>
+        <div className="row">
+          <div className="col-md-3 col-xs-3">Valtti:</div>
+          <div className="col-md-1 col-xs-1">{props.game.valtti}</div>
         </div>
         <h2>Pelaajat</h2>
         {props.game.players.map(player => (
@@ -107,6 +124,14 @@ const KirvesGame = props => (
             <div className="row">
               <div className="col-md-3 col-xs-3">Pelatut kortit:</div>
               <Cards cards={player.playedCards} roundsWon={player.roundsWon} action={() => {}} numOfPlayedRounds={props.game.numOfPlayedRounds} />
+            </div>
+            <div className="row">
+              <div className="col-md-3 col-xs-3">Vuoro/toiminnot:</div>
+              <div className="col-md-3 col-xs-3">
+                {player.availableActions.map(action => (
+                  <div key={action}>{action} </div>
+                ))}
+              </div>
             </div>
           </div>
         ))}
