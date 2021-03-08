@@ -105,6 +105,12 @@ const KirvesGame = props => (
             actionName={includes('DISCARD', props.game.myAvailableActions) ? 'DISCARD' : 'PLAY_CARD'}
           />
         </div>
+        {props.game.myExtraCard && (
+          <div className="row">
+            <div className="col-md-3 col-xs-3">Ylimääräinen kortti:</div>
+            <div className="col-md-1 col-xs-1"><SvgImage name={props.game.myExtraCard} className="img-responsive" /></div>
+          </div>
+        )}
         <div className="row">
           <div className="col-md-3 col-xs-3">Valttikortti:</div>
           <div className="col-md-1 col-xs-1"><SvgImage name={props.game.valttiKortti} className="img-responsive" /></div>
@@ -121,6 +127,12 @@ const KirvesGame = props => (
               <div className="col-md-3 col-xs-3">Kortteja:</div>
               <div className="col-md-3 col-xs-3">{player.cardsInHand}</div>
             </div>
+            {player.extraCard && (
+              <div className="row">
+                <div className="col-md-3 col-xs-3">Ylimääräinen kortti:</div>
+                <div className="col-md-1 col-xs-1"><SvgImage name={player.extraCard} className="img-responsive" /></div>
+              </div>
+            )}
             <div className="row">
               <div className="col-md-3 col-xs-3">Pelatut kortit:</div>
               <Cards cards={player.playedCards} roundsWon={player.roundsWon} action={() => {}} numOfPlayedRounds={props.game.numOfPlayedRounds} />
