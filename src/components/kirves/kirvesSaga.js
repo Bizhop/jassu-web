@@ -16,7 +16,6 @@ import {
   joinGameSuccess,
   joinGameFailure,
   ACTION,
-  actionSuccess,
   actionFailure
 } from './kirvesActions'
 
@@ -62,6 +61,7 @@ function* actionSaga(action) {
     const response = yield call(Api.put, `api/kirves/${action.params.gameId}`, {
       action: action.params.action,
       index: action.params.index,
+      keepExtraCard: action.params.keepExtraCard
     })
   } catch (e) {
     yield put(actionFailure(e))

@@ -78,6 +78,20 @@ const KirvesGame = props => (
               </button>
             </div>
           )}
+          {includes('ACE_OR_TWO_DECISION', props.game.myAvailableActions) && (
+            <div>
+              <div className="col-md-3 col-xs-3">
+                <button onClick={() => props.action({gameId:props.game.id, action:'ACE_OR_TWO_DECISION', keepExtraCard: true})} className="btn btn-primary">
+                  Pidä
+                </button>
+              </div>
+              <div className="col-md-3 col-xs-3">
+                <button onClick={() => props.action({gameId:props.game.id, action:'ACE_OR_TWO_DECISION', keepExtraCard: false})} className="btn btn-primary">
+                  Hylkää
+                </button>
+              </div>
+            </div>
+          )}
         </div>
         <div className="row">
           <div className="col-md-3 col-xs-3">Viesti:</div>
