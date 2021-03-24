@@ -61,7 +61,8 @@ function* actionSaga(action) {
     const response = yield call(Api.put, `api/kirves/${action.params.gameId}`, {
       action: action.params.action,
       index: action.params.index,
-      keepExtraCard: action.params.keepExtraCard
+      keepExtraCard: action.params.keepExtraCard,
+      valtti: action.params.valtti,
     })
   } catch (e) {
     yield put(actionFailure(e))

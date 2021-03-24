@@ -7,6 +7,9 @@ import SockJsClient from 'react-stomp'
 import { getGame, joinGame, action } from './kirvesActions'
 import { autoLogin } from '../user/userActions'
 import { SvgImage } from '../shared/images'
+import { Field } from 'redux-form'
+import SetValttiForm from './SetValttiForm'
+import { propTypes } from 'react-widgets/lib/SelectList'
 
 const Cards = props => (
   <div>
@@ -91,6 +94,12 @@ const KirvesGame = props => (
                 </button>
               </div>
             </div>
+          )}
+          {includes('SET_VALTTI', props.game.myAvailableActions) && (
+            <SetValttiForm 
+              onSubmit={props.setValtti}
+              valtti={props.game.valtti}
+            />
           )}
         </div>
         <div className="row">
@@ -181,6 +190,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     join: gameId => dispatch(joinGame(gameId)),
     refresh: gameId => dispatch(getGame(gameId)),
     action: params => dispatch(action(params)),
+    setValtti: form => dispatch(action({gameId:id, action:'SET_VALTTI', valtti: form.valtti})),
   }
 }
 
