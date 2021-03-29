@@ -1,4 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
+import { dissoc } from 'ramda'
 
 import Api from '../Api'
 import {
@@ -58,12 +59,7 @@ function* joinGameSaga(action) {
 
 function* actionSaga(action) {
   try {
-    const response = yield call(Api.put, `api/kirves/${action.params.gameId}`, {
-      action: action.params.action,
-      index: action.params.index,
-      keepExtraCard: action.params.keepExtraCard,
-      valtti: action.params.valtti,
-    })
+    const response = yield call(Api.put, `api/kirves/${action.params.gameId}`, dissoc('gameId', action.params))
   } catch (e) {
     yield put(actionFailure(e))
   }

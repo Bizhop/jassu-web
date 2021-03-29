@@ -7,9 +7,7 @@ import SockJsClient from 'react-stomp'
 import { getGame, joinGame, action } from './kirvesActions'
 import { autoLogin } from '../user/userActions'
 import { SvgImage } from '../shared/images'
-import { Field } from 'redux-form'
 import SetValttiForm from './SetValttiForm'
-import { propTypes } from 'react-widgets/lib/SelectList'
 
 const Cards = props => (
   <div>
@@ -75,10 +73,19 @@ const KirvesGame = props => (
             </div>
           )}
           {includes('CUT', props.game.myAvailableActions) && (
-            <div className="col-md-3 col-xs-3">
-              <button onClick={() => props.action({gameId:props.game.id, action:'CUT'})} className="btn btn-primary">
-                Nosta
-              </button>
+            <div>
+              <div className="col-md-3 col-xs-3">
+                <button onClick={() => props.action({gameId:props.game.id, action:'CUT'})} className="btn btn-primary">
+                  Nosta
+                </button>
+              </div>
+              {props.game.canDeclineCut && (
+                <div className="col-md-3 col-xs-3">
+                  <button onClick={() => props.action({gameId:props.game.id, action:'CUT', declineCut: true})} className="btn btn-primary">
+                    Älä nosta
+                  </button>
+                </div>
+              )}
             </div>
           )}
           {includes('ACE_OR_TWO_DECISION', props.game.myAvailableActions) && (
