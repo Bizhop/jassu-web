@@ -8,6 +8,7 @@ import { getGame, joinGame, action } from './kirvesActions'
 import { autoLogin } from '../user/userActions'
 import { SvgImage } from '../shared/images'
 import SetValttiForm from './SetValttiForm'
+import translate from '../shared/translate'
 
 const Cards = props => (
   <div>
@@ -59,14 +60,14 @@ const KirvesGame = props => (
         <div className="row">
           <div className="col-md-6 col-xs-6">Peli {props.game.id} alkanut!</div>
           {props.game.canJoin && (
-            <div className="col-md-3 col-xs-3">
+            <div className="col-md-2 col-xs-2">
               <button onClick={() => props.join(props.game.id)} className="btn btn-primary">
                 Liity peliin
               </button>
             </div>
           )}
           {includes('DEAL', props.game.myAvailableActions) && (
-            <div className="col-md-3 col-xs-3">
+            <div className="col-md-2 col-xs-2">
               <button onClick={() => props.action({gameId:props.game.id, action:'DEAL'})} className="btn btn-primary">
                 Jaa
               </button>
@@ -74,13 +75,13 @@ const KirvesGame = props => (
           )}
           {includes('CUT', props.game.myAvailableActions) && (
             <div>
-              <div className="col-md-3 col-xs-3">
+              <div className="col-md-2 col-xs-2">
                 <button onClick={() => props.action({gameId:props.game.id, action:'CUT'})} className="btn btn-primary">
                   Nosta
                 </button>
               </div>
               {props.game.canDeclineCut && (
-                <div className="col-md-3 col-xs-3">
+                <div className="col-md-2 col-xs-2">
                   <button onClick={() => props.action({gameId:props.game.id, action:'CUT', declineCut: true})} className="btn btn-primary">
                     Älä nosta
                   </button>
@@ -90,12 +91,12 @@ const KirvesGame = props => (
           )}
           {includes('ACE_OR_TWO_DECISION', props.game.myAvailableActions) && (
             <div>
-              <div className="col-md-3 col-xs-3">
+              <div className="col-md-2 col-xs-2">
                 <button onClick={() => props.action({gameId:props.game.id, action:'ACE_OR_TWO_DECISION', keepExtraCard: true})} className="btn btn-primary">
                   Pidä
                 </button>
               </div>
-              <div className="col-md-3 col-xs-3">
+              <div className="col-md-2 col-xs-2">
                 <button onClick={() => props.action({gameId:props.game.id, action:'ACE_OR_TWO_DECISION', keepExtraCard: false})} className="btn btn-primary">
                   Hylkää
                 </button>
@@ -110,23 +111,30 @@ const KirvesGame = props => (
           )}
         </div>
         <div className="row">
-          <div className="col-md-3 col-xs-3">Viesti:</div>
+          <div className="col-md-2 col-xs-2">Viesti:</div>
           <div className="col-md-3 col-xs-3">{props.game.message}</div>
         </div>
         <div className="row">
-          <div className="col-md-3 col-xs-3">Pakka:</div>
-          <div className="col-md-3 col-xs-3">{props.game.cardsInDeck} korttia</div>
+          <div className="col-md-2 col-xs-2">Pakka:</div>
+          <div className="col-md-2 col-xs-2">{props.game.cardsInDeck} korttia</div>
+        </div>
+        {props.game.cutCard && (
+          <div className="row">
+            <div className="col-md-2 col-xs-2">Nostokortti:</div>
+            <div className="col-md-1 col-xs-1"><SvgImage name={props.game.cutCard} className="img-responsive" /></div>
+          </div>
+        )}
+        <div className="row">
+          <div className="col-md-2 col-xs-2">Valtti:</div>
+          {props.game.valttiKortti && ( 
+            <div className="col-md-1 col-xs-1"><SvgImage name={props.game.valttiKortti} className="img-responsive" /></div>
+          )}
+          {props.game.valtti && ( 
+            <div className="col-md-1 col-xs-1"><SvgImage name={`Suit${props.game.valtti}`} className="img-responsive" /></div>
+          )}
         </div>
         <div className="row">
-          <div className="col-md-3 col-xs-3">Jakaja:</div>
-          <div className="col-md-3 col-xs-3">{props.game.dealer}</div>
-        </div>
-        <div className="row">
-          <div className="col-md-3 col-xs-3">Pelivuoro:</div>
-          <div className="col-md-3 col-xs-3">{props.game.turn}</div>
-        </div>
-        <div className="row">
-          <div className="col-md-3 col-xs-3">Omat kortit:</div>
+          <div className="col-md-2 col-xs-2">Omat kortit:</div>
           <Cards 
             cards={props.game.myCardsInHand}
             action={props.action}
@@ -137,43 +145,39 @@ const KirvesGame = props => (
         </div>
         {props.game.myExtraCard && (
           <div className="row">
-            <div className="col-md-3 col-xs-3">Ylimääräinen kortti:</div>
+            <div className="col-md-2 col-xs-2">Ylimääräinen kortti:</div>
             <div className="col-md-1 col-xs-1"><SvgImage name={props.game.myExtraCard} className="img-responsive" /></div>
           </div>
         )}
-        <div className="row">
-          <div className="col-md-3 col-xs-3">Valttikortti:</div>
-          <div className="col-md-1 col-xs-1"><SvgImage name={props.game.valttiKortti} className="img-responsive" /></div>
-        </div>
-        <div className="row">
-          <div className="col-md-3 col-xs-3">Valtti:</div>
-          <div className="col-md-1 col-xs-1">{props.game.valtti}</div>
-        </div>
         <h2>Pelaajat</h2>
         {props.game.players.map(player => (
           <div key={player.email}>
-            <h2>{player.email}</h2>
+            <h3>
+              {player.email}
+              {props.game.dealer === player.email && (' (J)')}
+              {props.game.turn === player.email && (' (V)')}
+            </h3>
             <div className="row">
-              <div className="col-md-3 col-xs-3">Kortteja:</div>
-              <div className="col-md-3 col-xs-3">{player.cardsInHand}</div>
+              <div className="col-md-2 col-xs-2">Toiminnot:</div>
+              <div className="col-md-2 col-xs-2">
+                {player.availableActions.map(action => (
+                  <div key={action}>{translate(action)} </div>
+                ))}
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-2 col-xs-2">Kortteja kädessä:</div>
+              <div className="col-md-1 col-xs-1">{player.cardsInHand}</div>
             </div>
             {player.extraCard && (
               <div className="row">
-                <div className="col-md-3 col-xs-3">Ylimääräinen kortti:</div>
+                <div className="col-md-2 col-xs-2">Ylimääräinen kortti:</div>
                 <div className="col-md-1 col-xs-1"><SvgImage name={player.extraCard} className="img-responsive" /></div>
               </div>
             )}
             <div className="row">
-              <div className="col-md-3 col-xs-3">Pelatut kortit:</div>
+              <div className="col-md-2 col-xs-2">Pelatut kortit:</div>
               <Cards cards={player.playedCards} roundsWon={player.roundsWon} action={() => {}} numOfPlayedRounds={props.game.numOfPlayedRounds} />
-            </div>
-            <div className="row">
-              <div className="col-md-3 col-xs-3">Vuoro/toiminnot:</div>
-              <div className="col-md-3 col-xs-3">
-                {player.availableActions.map(action => (
-                  <div key={action}>{action} </div>
-                ))}
-              </div>
             </div>
           </div>
         ))}
