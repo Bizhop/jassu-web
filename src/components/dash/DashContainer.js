@@ -3,7 +3,8 @@ import { path } from 'ramda'
 import { connect } from 'react-redux'
 import GoogleLogin from 'react-google-login'
 
-import { login, loginError, autoLogin } from '../user/userActions'
+import { login, loginError, autoLogin, update } from '../user/userActions'
+import UpdateUserForm from '../user/UpdateUserForm'
 
 const DashContainer = props => (
   <div className="container">
@@ -13,6 +14,15 @@ const DashContainer = props => (
         <div className="row">
           <div className="col-md-2">Email</div>
           <div className="col-md-5">{props.user.email}</div>
+        </div>
+        <div className="row">
+          <div className="col-md-2">Nickname</div>
+          <div className="col-md-5">{props.user.nickname}</div>
+        </div>
+        <div className="row">
+          <div className="col-md-6">
+            <UpdateUserForm onSubmit={props.updateUser} user={props.user} />
+          </div>
         </div>
         <div className="row">
           <div className="col-md-2">Massia</div>
@@ -41,6 +51,7 @@ const mapDispatchToProps = dispatch => ({
   autoLogin: dispatch(autoLogin()),
   login: response => dispatch(login(response)),
   loginError: response => dispatch(loginError(response)),
+  updateUser: form => dispatch(update(form)),
 })
 
 export default connect(

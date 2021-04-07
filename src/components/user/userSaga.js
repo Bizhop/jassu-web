@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 
 import Api from '../Api'
-import { LOGIN_REQUEST, loginSuccess, loginError, AUTO_LOGIN } from './userActions'
+import { LOGIN_REQUEST, loginSuccess, loginError, AUTO_LOGIN, UPDATE_REQUEST, updateSuccess, updateError } from './userActions'
 
 function* loginSaga(action) {
   try {
@@ -33,8 +33,17 @@ function* autoLoginSaga(action) {
   }
 }
 
+function* updateUserSaga(action) {
+  try {
+    const response = yield call(Api.put, 'api/user', action.params)
+    yield put(updateSuccess(response))
+  } catch (e) {
+    yield put(updateError(e))
+  }
+}
+
 function* userSaga() {
-  yield [takeEvery(LOGIN_REQUEST, loginSaga), takeEvery(AUTO_LOGIN, autoLoginSaga)]
+  yield [takeEvery(LOGIN_REQUEST, loginSaga), takeEvery(AUTO_LOGIN, autoLoginSaga), , takeEvery(UPDATE_REQUEST, updateUserSaga)]
 }
 
 export default userSaga

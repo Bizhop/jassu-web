@@ -153,7 +153,7 @@ const KirvesGame = props => (
         {props.game.players.map(player => (
           <div key={player.email}>
             <h3>
-              {player.email}
+              {player.nickname ? player.nickname : player.email}
               {props.game.dealer === player.email && (' (J)')}
               {props.game.turn === player.email && (' (V)')}
             </h3>
