@@ -20,13 +20,13 @@ const DashContainer = props => (
           <div className="col-md-5">{props.user.nickname}</div>
         </div>
         <div className="row">
+          <div className="col-md-2">Massia</div>
+          <div className="col-md-5">{props.user.money}</div>
+        </div>
+        <div className="row" style={{marginTop: 20}} >
           <div className="col-md-6">
             <UpdateUserForm onSubmit={props.updateUser} user={props.user} />
           </div>
-        </div>
-        <div className="row">
-          <div className="col-md-2">Massia</div>
-          <div className="col-md-5">{props.user.money}</div>
         </div>
       </div>
     ) : (

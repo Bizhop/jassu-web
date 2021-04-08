@@ -22,13 +22,24 @@ const SetValttiForm = props => (
       component={RenderSelectInput}
       options={getOptions(props.valtti)}
     />
-    <button
-      type="submit"
-      className="btn btn-primary"
-      disabled={props.submitting || props.pristine}
-    >
-     Aseta Valtti
-    </button> 
+    <Field
+      name="declarePlayerEmail"
+      label="Pelinviejä"
+      type="select"
+      component={RenderSelectInput}
+      options={props.players.map(player => { return {name: player.nickname, value:player.email}})}
+    />
+    <div className="row">
+      <div className="col-md-3 col-md-offset-3">
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={props.submitting || props.pristine}
+        >
+        Aseta Valtti
+        </button>
+      </div>
+    </div>
   </form>
 )
 

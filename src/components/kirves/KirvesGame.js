@@ -47,7 +47,6 @@ function hideForSeconds(event, time) {
 
 const KirvesGame = props => (
   <div className="container">
-    <h1>Kirves</h1>
     {props.game && (
       <div>
         <SockJsClient url={WEB_SOCKET_URL} topics={['/topic/refresh']} 
@@ -57,8 +56,8 @@ const KirvesGame = props => (
             }
           }}
         />
+        <h1>Kirves (Peli {props.game.id})</h1>
         <div className="row">
-          <div className="col-md-6 col-xs-6">Peli {props.game.id} alkanut!</div>
           {props.game.canJoin && (
             <div className="col-md-2 col-xs-2">
               <button onClick={() => props.join(props.game.id)} className="btn btn-primary">
@@ -103,13 +102,18 @@ const KirvesGame = props => (
               </div>
             </div>
           )}
-          {includes('SET_VALTTI', props.game.myAvailableActions) && (
-            <SetValttiForm 
-              onSubmit={props.setValtti}
-              valtti={props.game.valtti}
-            />
-          )}
         </div>
+        {includes('SET_VALTTI', props.game.myAvailableActions) && (
+          <div className="row">
+            <div className="col-md-6 col-xs-6">
+              <SetValttiForm 
+                onSubmit={props.setValtti}
+                valtti={props.game.valtti}
+                players={props.game.players}
+              />
+            </div>
+          </div>
+        )}
         <div className="row">
           <div className="col-md-2 col-xs-2">Viesti:</div>
           <div className="col-md-3 col-xs-3">{props.game.message}</div>
@@ -156,6 +160,7 @@ const KirvesGame = props => (
               {player.nickname ? player.nickname : player.email}
               {props.game.dealer === player.email && (' (J)')}
               {props.game.turn === player.email && (' (V)')}
+              {player.declaredPlayer && (' (P)')}
             </h3>
             <div className="row">
               <div className="col-md-2 col-xs-2">Toiminnot:</div>
@@ -201,7 +206,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     join: gameId => dispatch(joinGame(gameId)),
     refresh: gameId => dispatch(getGame(gameId)),
     action: params => dispatch(action(params)),
-    setValtti: form => dispatch(action({gameId:id, action:'SET_VALTTI', valtti: form.valtti})),
+    setValtti: form => dispatch(action({gameId:id, action:'SET_VALTTI', valtti: form.valtti, declarePlayerEmail: form.declarePlayerEmail})),
   }
 }
 
