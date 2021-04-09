@@ -159,7 +159,7 @@ const KirvesGame = props => (
             <h3>
               {player.nickname ? player.nickname : player.email}
               {props.game.dealer === player.email && (' (J)')}
-              {props.game.turn === player.email && (' (V)')}
+              {player.availableActions.length > 0 && (' (V)')}
               {player.declaredPlayer && (' (P)')}
             </h3>
             <div className="row">
