@@ -37,7 +37,7 @@ const KirvesContainer = props => (
                 {game.id}
               </NavLink>
             </td>
-            <td>{game.players.length}</td>
+            <td>{game.players}</td>
             <td>{game.canJoin && <img src={check} width="10" height="10" /> }</td>
           </tr>
         ))}
