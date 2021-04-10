@@ -9,6 +9,7 @@ function translate(key) {
         case "DEAL": return "Jaa"
         case "DISCARD": return "Tyhjennä"
         case "SET_VALTTI": return "Aseta valtti"
+        case "ACE_OR_TWO_DECISION": return "Päätä hakki"
         default: return "***puuttuva käännös***"
       }
 }
