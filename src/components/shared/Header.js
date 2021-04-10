@@ -3,7 +3,7 @@ import { path } from 'ramda'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { logout, autoLogin } from '../user/userActions'
+import { logout } from '../user/userActions'
 
 const Header = props => (
   <div>
@@ -17,11 +17,11 @@ const Header = props => (
           </div>
           {props.loggedIn && (
             <div>
-              <div className="col-md-1 col-xs-12">
+              {/* <div className="col-md-1 col-xs-12">
                 <NavLink to="/poker" className="nav-link nav-item" activeClassName="active">
                   Pokeri
                 </NavLink>
-              </div>
+              </div> */}
               <div className="col-md-1 col-xs-12">
                 <NavLink to="/kirves" className="nav-link nav-item" activeClassName="active">
                   Kirves

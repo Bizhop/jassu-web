@@ -10,6 +10,9 @@ export const GET_GAMES_FAILURE = 'kirves/GET_GAMES_FAILURE'
 export const JOIN_GAME = 'kirves/JOIN_GAME'
 export const JOIN_GAME_SUCCESS = 'kirves/JOIN_GAME_SUCCESS'
 export const JOIN_GAME_FAILURE = 'kirves/JOIN_GAME_FAILURE'
+export const DELETE_GAME = 'kirves/DELETE_GAME'
+export const DELETE_GAME_SUCCESS = 'kirves/DELETE_GAME_SUCCESS'
+export const DELETE_GAME_FAILURE = 'kirves/DELETE_GAME_FAILURE'
 export const ACTION = 'kirves/ACTION'
 export const ACTION_SUCCESS = 'kirves/ACTION_SUCCESS'
 export const ACTION_FAILURE = 'kirves/ACTION_FAILURE'
@@ -55,6 +58,21 @@ export const getGamesSuccess = response => ({
 export const getGamesFailure = error => ({
   type: GET_GAMES_FAILURE,
   error,
+})
+
+export const deleteGame = gameId => ({
+  type: DELETE_GAME,
+  gameId
+})
+
+export const deleteGameSuccess = gameId => ({
+  type: DELETE_GAME_SUCCESS,
+  gameId
+})
+
+export const deleteGameFailure = error => ({
+  type: DELETE_GAME_FAILURE,
+  error
 })
 
 export const joinGame = gameId => ({

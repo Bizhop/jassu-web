@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import { Redirect, NavLink } from 'react-router-dom'
 import { path } from 'ramda'
 
-import { init, getGames } from './kirvesActions'
+import { init, getGames, deleteGame } from './kirvesActions'
 import { autoLogin } from '../user/userActions'
-import { check, SvgImage } from '../shared/images'
+import { check, del } from '../shared/images'
+import { formatString } from '../shared/dateFormat'
 
 const KirvesContainer = props => (
   <div className="container">
@@ -21,8 +22,10 @@ const KirvesContainer = props => (
       <thead>
         <tr>
           <th>Peli</th>
+          <th>Pvm</th>
           <th>Pelaajia</th>
           <th>Voi liittyä</th>
+          <th />
         </tr>
       </thead>
       <tbody>
@@ -37,8 +40,14 @@ const KirvesContainer = props => (
                 {game.id}
               </NavLink>
             </td>
+            <td>{formatString(game.createdAt)}</td>
             <td>{game.players}</td>
             <td>{game.canJoin && <img src={check} width="10" height="10" /> }</td>
+            <td>
+              {props.user.email === game.admin.email && (
+                <img src={del} width="10" height="10" onClick={() => props.deleteGame(game.id)} /> 
+              )}
+            </td>
           </tr>
         ))}
       </tbody>
@@ -56,7 +65,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   autoLogin: dispatch(autoLogin()),
   getGames: dispatch(getGames()),
-  init: () => dispatch(init())
+  init: () => dispatch(init()),
+  deleteGame: gameId => dispatch(deleteGame(gameId))
 })
 
 export default connect(

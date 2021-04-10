@@ -17,7 +17,10 @@ import {
   joinGameSuccess,
   joinGameFailure,
   ACTION,
-  actionFailure
+  actionFailure,
+  DELETE_GAME,
+  deleteGameSuccess,
+  deleteGameFailure
 } from './kirvesActions'
 
 function* initSaga() {
@@ -65,8 +68,24 @@ function* actionSaga(action) {
   }
 }
 
+function* deleteGameSaga(action) {
+  try {
+    yield call(Api.delete, `api/kirves/${action.gameId}`)
+    yield put(deleteGameSuccess(action.gameId))
+  } catch (e) {
+    yield put(deleteGameFailure(e))
+  }
+}
+
 function* kirvesSaga() {
-  yield [takeEvery(INIT, initSaga), takeEvery(GET_GAME, getGameSaga), takeEvery(GET_GAMES, getGamesSaga), takeEvery(JOIN_GAME, joinGameSaga), takeEvery(ACTION, actionSaga)]
+  yield [
+    takeEvery(INIT, initSaga),
+    takeEvery(GET_GAME, getGameSaga),
+    takeEvery(GET_GAMES, getGamesSaga),
+    takeEvery(JOIN_GAME, joinGameSaga),
+    takeEvery(ACTION, actionSaga),
+    takeEvery(DELETE_GAME, deleteGameSaga)
+  ]
 }
 
 export default kirvesSaga
