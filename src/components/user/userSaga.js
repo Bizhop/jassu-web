@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { all, call, put, takeEvery } from 'redux-saga/effects'
 
 import Api from '../Api'
 import { LOGIN_REQUEST, loginSuccess, loginError, AUTO_LOGIN, UPDATE_REQUEST, updateSuccess, updateError } from './userActions'
@@ -43,7 +43,9 @@ function* updateUserSaga(action) {
 }
 
 function* userSaga() {
-  yield [takeEvery(LOGIN_REQUEST, loginSaga), takeEvery(AUTO_LOGIN, autoLoginSaga), , takeEvery(UPDATE_REQUEST, updateUserSaga)]
+  yield takeEvery(LOGIN_REQUEST, loginSaga)
+  yield takeEvery(AUTO_LOGIN, autoLoginSaga)
+  yield takeEvery(UPDATE_REQUEST, updateUserSaga)
 }
 
 export default userSaga

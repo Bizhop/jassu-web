@@ -1,4 +1,5 @@
 import React from 'react'
+import Select from 'react-select'
 
 export const RenderTextInput = ({ input, label, type, meta: { touched, error } }) => (
   <div className="form-group form-inline">
@@ -41,6 +42,29 @@ export const RenderSelectInput = ({ input, label, type, options, meta: { touched
     </div>
   )
 }
+
+export const RenderMultiSelectInput = ({input, options, name, id, label}) => (
+  <div className="form-group form-inline">
+      <div className="row">
+        <div className="col-md-3">
+          <label className="form-control-label pull-right" htmlFor={input.name}>
+            {label}
+          </label>
+        </div>
+        <div className="col-md-9">
+          <Select 
+            {...input}
+            id={id}
+            name={name}
+            options={options}
+            onChange={(value) => input.onChange(value)}
+            onBlur={() => {}}
+            isMulti
+          />
+        </div>
+      </div>
+    </div>
+)
 
 export const RenderCheckbox = ({ input, label, type, meta: { touched, error } }) => (
   <div className="form-check form-check-inline">

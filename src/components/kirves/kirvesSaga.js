@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { all, call, put, takeEvery } from 'redux-saga/effects'
 import { dissoc } from 'ramda'
 
 import Api from '../Api'
@@ -78,14 +78,14 @@ function* deleteGameSaga(action) {
 }
 
 function* kirvesSaga() {
-  yield [
+  yield all([
     takeEvery(INIT, initSaga),
     takeEvery(GET_GAME, getGameSaga),
     takeEvery(GET_GAMES, getGamesSaga),
     takeEvery(JOIN_GAME, joinGameSaga),
     takeEvery(ACTION, actionSaga),
     takeEvery(DELETE_GAME, deleteGameSaga)
-  ]
+  ])
 }
 
 export default kirvesSaga

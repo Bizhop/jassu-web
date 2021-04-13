@@ -1,13 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { path, includes } from 'ramda'
+import { path, includes, pluck } from 'ramda'
 import SockJsClient from 'react-stomp'
 
 import { getGame, joinGame, action } from './kirvesActions'
 import { autoLogin } from '../user/userActions'
 import { SvgImage } from '../shared/images'
 import SetValttiForm from './SetValttiForm'
+import AdjustPlayersForm from './AdjustPlayersForm'
 import translate from '../shared/translate'
 
 const Cards = props => (
@@ -114,6 +115,18 @@ const KirvesGame = props => (
             </div>
           </div>
         )}
+        {includes('ADJUST_PLAYERS_IN_GAME', props.game.myAvailableActions) && (
+          <div className="row">
+            <div className="col-md-6 col-xs-6">
+              <AdjustPlayersForm
+                onSubmit={props.adjustPlayers}
+                players={props.game.players}
+                adjustPlayersFormValues={props.adjustPlayersFormValues}
+                initialValues={{resetActivePlayers: false}}
+              />
+            </div>
+          </div>
+        )}
         <div className="row">
           <div className="col-md-2 col-xs-2">Viesti:</div>
           <div className="col-md-3 col-xs-3">{props.game.message}</div>
@@ -196,6 +209,7 @@ const mapStateToProps = state => ({
   user: path(['user'], state),
   error: path(['user', 'error'], state),
   game: path(['kirves', 'game'], state),
+  adjustPlayersFormValues: path(['form', 'adjustPlayersForm', 'values'], state),
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -207,6 +221,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     refresh: gameId => dispatch(getGame(gameId)),
     action: params => dispatch(action(params)),
     setValtti: form => dispatch(action({gameId:id, action:'SET_VALTTI', valtti: form.valtti, declarePlayerEmail: form.declarePlayerEmail})),
+    adjustPlayers: form => dispatch(action({gameId:id, action:'ADJUST_PLAYERS_IN_GAME', resetActivePlayers: form.resetActivePlayers, inactivateByEmail: pluck('value', form.inactivateByEmail)})),
   }
 }
 
