@@ -4,9 +4,9 @@ import { Redirect } from 'react-router-dom'
 import { path, includes, pluck } from 'ramda'
 import SockJsClient from 'react-stomp'
 
-import { getGame, joinGame, action } from './kirvesActions'
+import { getGame, joinGame, action, showAllCards } from './kirvesActions'
 import { autoLogin } from '../user/userActions'
-import { SvgImage } from '../shared/images'
+import { SvgImage, view, check } from '../shared/images'
 import SetValttiForm from './SetValttiForm'
 import AdjustPlayersForm from './AdjustPlayersForm'
 import translate from '../shared/translate'
@@ -17,7 +17,7 @@ const Cards = props => (
       <div className="col-md-1 col-xs-1" key={`card-${card}`}>
         <SvgImage name={card} className="img-responsive" onClick={() => props.action({gameId:props.gameId, action:props.actionName, index:i})} />
         {props.roundsWon.includes(i) && (
-          <BackCard lastCard={props.numOfPlayedRounds - 1 == i} />
+          props.cardsVisible ? <img src={check} width="10" height="10" /> : <BackCard lastCard={props.numOfPlayedRounds - 1 == i} />
         )}
       </div>
     ))}
@@ -166,7 +166,11 @@ const KirvesGame = props => (
             <div className="col-md-1 col-xs-1"><SvgImage name={props.game.myExtraCard} className="img-responsive" /></div>
           </div>
         )}
-        <h2>Pelaajat</h2>
+        <h2>Pelaajat
+        {props.game.numOfPlayedRounds == 5 && (
+          <img src={view} width="30" height="30" onClick={() => props.showAllCards()} />
+        )}
+        </h2>
         {props.game.players.map(player => (
           <div key={player.email}>
             <h3>
@@ -195,7 +199,13 @@ const KirvesGame = props => (
             )}
             <div className="row">
               <div className="col-md-2 col-xs-2">Pelatut kortit:</div>
-              <Cards cards={player.playedCards} roundsWon={player.roundsWon} action={() => {}} numOfPlayedRounds={props.game.numOfPlayedRounds} />
+              <Cards
+                cards={player.playedCards}
+                roundsWon={player.roundsWon}
+                action={() => {}}
+                numOfPlayedRounds={props.game.numOfPlayedRounds}
+                cardsVisible={props.cardsVisible}
+              />
             </div>
           </div>
         ))}
@@ -210,6 +220,7 @@ const mapStateToProps = state => ({
   error: path(['user', 'error'], state),
   game: path(['kirves', 'game'], state),
   adjustPlayersFormValues: path(['form', 'adjustPlayersForm', 'values'], state),
+  cardsVisible: path(['kirves', 'cardsVisible'], state)
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -222,6 +233,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     action: params => dispatch(action(params)),
     setValtti: form => dispatch(action({gameId:id, action:'SET_VALTTI', valtti: form.valtti, declarePlayerEmail: form.declarePlayerEmail})),
     adjustPlayers: form => dispatch(action({gameId:id, action:'ADJUST_PLAYERS_IN_GAME', resetActivePlayers: form.resetActivePlayers, inactivateByEmail: pluck('value', form.inactivateByEmail)})),
+    showAllCards: () => dispatch(showAllCards())
   }
 }
 

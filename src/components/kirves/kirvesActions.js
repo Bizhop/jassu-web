@@ -16,6 +16,7 @@ export const DELETE_GAME_FAILURE = 'kirves/DELETE_GAME_FAILURE'
 export const ACTION = 'kirves/ACTION'
 export const ACTION_SUCCESS = 'kirves/ACTION_SUCCESS'
 export const ACTION_FAILURE = 'kirves/ACTION_FAILURE'
+export const SHOW_ALL_CARDS = 'kirves/SHOW_ALL_CARDS'
 
 export const init = () => ({
   type: INIT,
@@ -103,4 +104,8 @@ export const actionSuccess = response => ({
 export const actionFailure = error => ({
   type: ACTION_FAILURE,
   error,
+})
+
+export const showAllCards = () => ({
+  type: SHOW_ALL_CARDS
 })
