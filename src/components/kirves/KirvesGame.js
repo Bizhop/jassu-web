@@ -21,6 +21,11 @@ const Cards = props => (
         )}
       </div>
     ))}
+    {props.firstCardSuit && (
+      <div className="col-md-1 col-xs-1">
+        <SvgImage name={`Suit${props.firstCardSuit}`} className="img-responsive opaque50" />
+      </div>
+    )}
   </div>
 )
 
@@ -147,7 +152,7 @@ const KirvesGame = props => (
             <div className="col-md-1 col-xs-1"><SvgImage name={props.game.valttiKortti} className="img-responsive" /></div>
           )}
           {props.game.valtti && ( 
-            <div className="col-md-1 col-xs-1"><SvgImage name={`Suit${props.game.valtti}`} className="img-responsive" /></div>
+            <div className="col-md-1 col-xs-1"><SvgImage name={`Suit${props.game.valtti}`} className="img-responsive opaque50" /></div>
           )}
         </div>
         <div className="row">
@@ -158,6 +163,7 @@ const KirvesGame = props => (
             gameId={props.game.id}
             roundsWon={[]}
             actionName={includes('DISCARD', props.game.myAvailableActions) ? 'DISCARD' : 'PLAY_CARD'}
+            firstCardSuit={props.game.firstCardSuit}
           />
         </div>
         {props.game.myExtraCard && (
