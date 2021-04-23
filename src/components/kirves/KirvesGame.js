@@ -52,7 +52,7 @@ function hideForSeconds(event, time) {
 }
 
 const KirvesGame = props => (
-  <div className="container">
+  <div id="kirves-container" className="container">
     {props.game && (
       <div>
         <SockJsClient url={WEB_SOCKET_URL} topics={['/topic/refresh']} 
