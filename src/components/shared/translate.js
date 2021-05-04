@@ -5,6 +5,7 @@ function translate(key) {
         case "SPADES": return "Pata"
         case "CLUBS": return "Risti"
         case "PLAY_CARD": return "Pelaa kortti"
+        case "FOLD": return "Mene pakkaan"
         case "CUT": return "Nosta"
         case "DEAL": return "Jaa"
         case "DISCARD": return "Tyhjennä"

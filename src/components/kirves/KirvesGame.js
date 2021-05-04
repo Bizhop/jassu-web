@@ -51,6 +51,20 @@ function hideForSeconds(event, time) {
   }, time * 1000)
 }
 
+const ActionButton = props => (
+  <div className="col-md-2 col-xs-2">
+    <button onClick={() => props.action({
+          gameId: props.gameId,
+          action: props.actionName,
+          declineCut: props.declineCut,
+          keepExtraCard: props.keepExtraCard
+          })}
+        className="btn btn-primary">
+      {props.label}
+    </button>
+  </div>
+)
+
 const KirvesGame = props => (
   <div id="kirves-container" className="container">
     {props.game && (
@@ -72,40 +86,23 @@ const KirvesGame = props => (
             </div>
           )}
           {includes('DEAL', props.game.myAvailableActions) && (
-            <div className="col-md-2 col-xs-2">
-              <button onClick={() => props.action({gameId:props.game.id, action:'DEAL'})} className="btn btn-primary">
-                Jaa
-              </button>
-            </div>
+            <ActionButton action={props.action} actionName="DEAL" gameId={props.game.id} label="Jaa" />
+          )}
+          {includes('FOLD', props.game.myAvailableActions) && (
+            <ActionButton action={props.action} actionName="FOLD" gameId={props.game.id} label="Mene pakkaan" />
           )}
           {includes('CUT', props.game.myAvailableActions) && (
             <div>
-              <div className="col-md-2 col-xs-2">
-                <button onClick={() => props.action({gameId:props.game.id, action:'CUT'})} className="btn btn-primary">
-                  Nosta
-                </button>
-              </div>
+              <ActionButton action={props.action} actionName="CUT" gameId={props.game.id} label="Nosta" />
               {props.game.canDeclineCut && (
-                <div className="col-md-2 col-xs-2">
-                  <button onClick={() => props.action({gameId:props.game.id, action:'CUT', declineCut: true})} className="btn btn-primary">
-                    Älä nosta
-                  </button>
-                </div>
+                <ActionButton action={props.action} actionName="CUT" gameId={props.game.id} declineCut="true" label="Älä nosta" />
               )}
             </div>
           )}
           {includes('ACE_OR_TWO_DECISION', props.game.myAvailableActions) && (
             <div>
-              <div className="col-md-2 col-xs-2">
-                <button onClick={() => props.action({gameId:props.game.id, action:'ACE_OR_TWO_DECISION', keepExtraCard: true})} className="btn btn-primary">
-                  Pidä
-                </button>
-              </div>
-              <div className="col-md-2 col-xs-2">
-                <button onClick={() => props.action({gameId:props.game.id, action:'ACE_OR_TWO_DECISION', keepExtraCard: false})} className="btn btn-primary">
-                  Hylkää
-                </button>
-              </div>
+              <ActionButton action={props.action} actionName="ACE_OR_TWO_DECISION" gameId={props.game.id} keepExtraCard="true" label="Pidä" />
+              <ActionButton action={props.action} actionName="ACE_OR_TWO_DECISION" gameId={props.game.id} keepExtraCard="false" label="Hylkää" />
             </div>
           )}
         </div>
