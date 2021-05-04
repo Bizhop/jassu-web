@@ -1,13 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { path, includes, pluck } from 'ramda'
+import { path, includes, pluck, without } from 'ramda'
 import SockJsClient from 'react-stomp'
 
 import { getGame, joinGame, action, showAllCards } from './kirvesActions'
 import { autoLogin } from '../user/userActions'
 import { SvgImage, view, check } from '../shared/images'
-import SetValttiForm from './SetValttiForm'
 import AdjustPlayersForm from './AdjustPlayersForm'
 import translate from '../shared/translate'
 
@@ -53,17 +52,36 @@ function hideForSeconds(event, time) {
 
 const ActionButton = props => (
   <div className="col-md-2 col-xs-2">
-    <button onClick={() => props.action({
+    <button 
+      onClick={() => props.action({
           gameId: props.gameId,
           action: props.actionName,
           declineCut: props.declineCut,
-          keepExtraCard: props.keepExtraCard
-          })}
-        className="btn btn-primary">
+          keepExtraCard: props.keepExtraCard,
+          speak: props.speak,
+        })}
+      className="btn btn-primary"
+    >
       {props.label}
     </button>
   </div>
 )
+
+const SuitSelector = props => {
+  const suits =  without([props.currentValtti], ['CLUBS', 'SPADES', 'HEARTS', 'DIAMONDS'])
+  return (
+    <div>
+      <h3>Valitse valtti</h3>
+      <div className="row">
+        {suits.map(valtti => (
+          <div className="col-md-1 col-xs-1" key={`suit-${valtti}`}>
+            <SvgImage name={`Suit${valtti}`} className="img-responsive" onClick={() => props.action({gameId:props.gameId, action:props.actionName, valtti})} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
 const KirvesGame = props => (
   <div id="kirves-container" className="container">
@@ -105,18 +123,22 @@ const KirvesGame = props => (
               <ActionButton action={props.action} actionName="ACE_OR_TWO_DECISION" gameId={props.game.id} keepExtraCard="false" label="Hylkää" />
             </div>
           )}
-        </div>
-        {includes('SET_VALTTI', props.game.myAvailableActions) && (
-          <div className="row">
-            <div className="col-md-6 col-xs-6">
-              <SetValttiForm 
-                onSubmit={props.setValtti}
-                valtti={props.game.valtti}
-                players={props.game.players}
-              />
+          {includes('SPEAK', props.game.myAvailableActions) && (
+            <div>
+              <ActionButton action={props.action} actionName="SPEAK" gameId={props.game.id} speak="KEEP" label="Päältä" />
+              <ActionButton action={props.action} actionName="SPEAK" gameId={props.game.id} speak="CHANGE" label="Värjäisin" />
+              <ActionButton action={props.action} actionName="SPEAK" gameId={props.game.id} speak="PASS" label="Viitenä" />
             </div>
-          </div>
-        )}
+          )}
+          {includes('SPEAK_SUIT', props.game.myAvailableActions) && (
+            <SuitSelector 
+              action={props.action}
+              actionName="SPEAK_SUIT"
+              gameId={props.game.id}
+              currentValtti={props.game.valtti}
+            />
+          )}
+        </div>
         {includes('ADJUST_PLAYERS_IN_GAME', props.game.myAvailableActions) && (
           <div className="row">
             <div className="col-md-6 col-xs-6">
@@ -194,6 +216,12 @@ const KirvesGame = props => (
               <div className="col-md-2 col-xs-2">Kortteja kädessä:</div>
               <div className="col-md-1 col-xs-1">{player.cardsInHand}</div>
             </div>
+            {player.speak && (
+              <div className="row">
+                <div className="col-md-2 col-xs-2">Puhe:</div>
+                <div className="col-md-1 col-xs-1">{translate(player.speak)}</div>
+              </div>
+            )}
             {player.extraCard && (
               <div className="row">
                 <div className="col-md-2 col-xs-2">Ylimääräinen kortti:</div>
