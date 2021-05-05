@@ -5,6 +5,12 @@ table.custom-table {
   white-space: nowrap;
 }
 
+table.score {
+  background-color: white;
+  border: gray 1px solid;
+  border-collapse: separate;
+}
+
 .btn-th {
   padding: 0px;
 }

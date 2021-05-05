@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { path, includes, pluck, without } from 'ramda'
+import { path, includes, pluck, without, keys, values } from 'ramda'
 import SockJsClient from 'react-stomp'
 
 import { getGame, joinGame, action, showAllCards } from './kirvesActions'
@@ -10,23 +10,25 @@ import { SvgImage, view, check } from '../shared/images'
 import AdjustPlayersForm from './AdjustPlayersForm'
 import translate from '../shared/translate'
 
-const Cards = props => (
-  <div>
-    {props.cards.map((card, i) => (
-      <div className="col-md-1 col-xs-1" key={`card-${card}`}>
-        <SvgImage name={card} className="img-responsive" onClick={() => props.action({gameId:props.gameId, action:props.actionName, index:i})} />
-        {props.roundsWon.includes(i) && (
-          props.cardsVisible ? <img src={check} width="10" height="10" /> : <BackCard lastCard={props.numOfPlayedRounds - 1 == i} />
-        )}
-      </div>
-    ))}
-    {props.firstCardSuit && (
-      <div className="col-md-1 col-xs-1">
-        <SvgImage name={`Suit${props.firstCardSuit}`} className="img-responsive opaque50" />
-      </div>
-    )}
-  </div>
-)
+const Cards = props => {
+  const s = props.scale || 1;
+  return (
+    <div className="row">
+      {props.cards.map((card, i) => (
+        <div className={`col-md-${s} col-xs-${s}`} key={`card-${card}`}>
+          <SvgImage name={card} className="img-responsive" onClick={() => props.action({gameId:props.gameId, action:props.actionName, index:i})} />
+          {props.roundsWon.includes(i) && (
+            props.cardsVisible ? <img src={check} width="10" height="10" /> : <BackCard lastCard={props.numOfPlayedRounds - 1 == i} />
+          )}
+        </div>
+      ))}
+      {props.firstCardSuit && (
+        <div className={`col-md-${s} col-xs-${s}`}>
+          <SvgImage name={`Suit${props.firstCardSuit}`} className="img-responsive opaque50" />
+        </div>
+      )}
+    </div>
+)}
 
 const BackCard = props => {
   if(props.lastCard) {
@@ -174,16 +176,18 @@ const KirvesGame = props => (
             <div className="col-md-1 col-xs-1"><SvgImage name={`Suit${props.game.valtti}`} className="img-responsive opaque50" /></div>
           )}
         </div>
+        <h4>Omat kortit:</h4>
         <div className="row">
-          <div className="col-md-2 col-xs-2">Omat kortit:</div>
-          <Cards 
-            cards={props.game.myCardsInHand}
-            action={props.action}
-            gameId={props.game.id}
-            roundsWon={[]}
-            actionName={includes('DISCARD', props.game.myAvailableActions) ? 'DISCARD' : 'PLAY_CARD'}
-            firstCardSuit={props.game.firstCardSuit}
-          />
+          <div className="col-md-12 col-xs-12">
+            <Cards 
+              cards={props.game.myCardsInHand}
+              action={props.action}
+              gameId={props.game.id}
+              roundsWon={[]}
+              actionName={includes('DISCARD', props.game.myAvailableActions) ? 'DISCARD' : 'PLAY_CARD'}
+              firstCardSuit={props.game.firstCardSuit}
+            />
+          </div>
         </div>
         {props.game.myExtraCard && (
           <div className="row">
@@ -196,54 +200,75 @@ const KirvesGame = props => (
           <img src={view} width="30" height="30" onClick={() => props.showAllCards()} />
         )}
         </h2>
-        {props.game.players.map(player => (
-          <div key={player.email}>
-            <h3>
-              {player.nickname ? player.nickname : player.email}
-              {props.game.dealer === player.email && (' (J)')}
-              {player.availableActions.length > 0 && (' (V)')}
-              {player.declaredPlayer && (' (P)')}
-            </h3>
-            <div className="row">
-              <div className="col-md-2 col-xs-2">Toiminnot:</div>
-              <div className="col-md-2 col-xs-2">
-                {player.availableActions.map(action => (
-                  <div key={action}>{translate(action)} </div>
-                ))}
+        <div className="row">
+          <div className="col-md-6 col-xs-6">
+            {props.game.players.map(player => (
+              <div key={player.email}>
+                <h3>
+                  {player.nickname ? player.nickname : player.email}
+                  {props.game.dealer === player.email && (' (J)')}
+                  {player.availableActions.length > 0 && (' (V)')}
+                  {player.declaredPlayer && (' (P)')}
+                </h3>
+                <div className="row">
+                  <div className="col-md-4 col-xs-4">Toiminnot:</div>
+                  <div className="col-md-4 col-xs-4">
+                    {player.availableActions.map(action => (
+                      <div key={action}>{translate(action)} </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-4 col-xs-4">Kortteja kädessä:</div>
+                  <div className="col-md-2 col-xs-2">{player.cardsInHand}</div>
+                </div>
+                {player.speak && (
+                  <div className="row">
+                    <div className="col-md-4 col-xs-4">Puhe:</div>
+                    <div className="col-md-2 col-xs-2">{translate(player.speak)}</div>
+                  </div>
+                )}
+                {player.extraCard && (
+                  <div className="row">
+                    <div className="col-md-4 col-xs-4">Ylimääräinen kortti:</div>
+                    <div className="col-md-2 col-xs-2"><SvgImage name={player.extraCard} className="img-responsive" /></div>
+                  </div>
+                )}
+                <div className="row">
+                  <div className="col-md-12 col-xs-12">
+                    <Cards
+                      cards={player.playedCards}
+                      roundsWon={player.roundsWon}
+                      action={() => {}}
+                      numOfPlayedRounds={props.game.numOfPlayedRounds}
+                      cardsVisible={props.cardsVisible}
+                      scale={2}
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="col-md-2 col-xs-2">Kortteja kädessä:</div>
-              <div className="col-md-1 col-xs-1">{player.cardsInHand}</div>
-            </div>
-            {player.speak && (
-              <div className="row">
-                <div className="col-md-2 col-xs-2">Puhe:</div>
-                <div className="col-md-1 col-xs-1">{translate(player.speak)}</div>
-              </div>
-            )}
-            {player.extraCard && (
-              <div className="row">
-                <div className="col-md-2 col-xs-2">Ylimääräinen kortti:</div>
-                <div className="col-md-1 col-xs-1"><SvgImage name={player.extraCard} className="img-responsive" /></div>
-              </div>
-            )}
-            <div className="row">
-              <div className="col-md-2 col-xs-2">Pelatut kortit:</div>
-              <Cards
-                cards={player.playedCards}
-                roundsWon={player.roundsWon}
-                action={() => {}}
-                numOfPlayedRounds={props.game.numOfPlayedRounds}
-                cardsVisible={props.cardsVisible}
-              />
-            </div>
+            ))}
           </div>
-        ))}
+          <div className="col-md-6 col-xs-6 score">
+            <table className="table table-striped score">
+              <thead><tr>
+                {keys(props.game.scores).map((player,i) => <th key={`player-${i}`}>{player}</th>)}
+              </tr></thead>
+              <tbody>
+                {props.game.scoresHistory.map((history,i) => <ScoreRow scores={values(history)} unique={i} key={i} /> )}
+                <ScoreRow scores={props.game.scores} unique={0} />
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     )}
     {!props.user.email && <Redirect to="/" />}
   </div>
+)
+
+const ScoreRow = props => (
+  <tr>{values(props.scores).map((score,i) => <td key={`score-${props.unique}${i}`}>{score}</td>)}</tr>
 )
 
 const mapStateToProps = state => ({
