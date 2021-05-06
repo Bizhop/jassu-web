@@ -1,4 +1,5 @@
 import { path, pick, map, reject } from 'ramda'
+import { UPDATE_FAILURE } from '../user/userActions'
 
 import { INIT_FAILURE, GET_GAME_SUCCESS, GET_GAMES_SUCCESS, GET_GAMES_FAILURE, JOIN_GAME_SUCCESS, JOIN_GAME_FAILURE, DELETE_GAME_SUCCESS, ACTION_FAILURE, GET_GAME_FAILURE, SHOW_ALL_CARDS } from './kirvesActions'
 
@@ -41,6 +42,7 @@ const kirvesReducer = (state = initialState, action) => {
     case INIT_FAILURE:
     case GET_GAMES_FAILURE:
     case GET_GAME_FAILURE:
+    case UPDATE_FAILURE:
       alert(path(['error', 'response', 'data', 'message'], action))
       return state
     default:

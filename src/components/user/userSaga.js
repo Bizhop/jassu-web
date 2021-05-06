@@ -18,7 +18,7 @@ function* loginSaga(action) {
   }
 }
 
-function* autoLoginSaga(action) {
+function* autoLoginSaga() {
   try {
     const token = localStorage.getItem('jassu-token')
     const response = yield call(Api.getRaw, 'api/auth', {
