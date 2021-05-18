@@ -165,6 +165,9 @@ const KirvesGame = props => (
           <div className="row">
             <div className="col-md-2 col-xs-2">Nostokortti:</div>
             <div className="col-md-1 col-xs-1"><SvgImage name={props.game.cutCard} className="img-responsive" /></div>
+            {props.game.secondCutCard && (
+              <div className="col-md-1 col-xs-1"><SvgImage name={props.game.secondCutCard} className="img-responsive opaque50" /></div>
+            )}
           </div>
         )}
         <div className="row">
