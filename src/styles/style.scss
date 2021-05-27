@@ -1,3 +1,9 @@
+ul#message-log {
+  height: 160px;
+  overflow: auto;
+  overflow-x: hidden;
+}
+
 table.custom-table {
   width: auto;
   table-layout: fixed;

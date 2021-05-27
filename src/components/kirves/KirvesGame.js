@@ -70,14 +70,14 @@ const ActionButton = props => (
 )
 
 const SuitSelector = props => {
-  const suits =  without([props.currentValtti], ['CLUBS', 'SPADES', 'HEARTS', 'DIAMONDS'])
+  const suits =  without([props.currentTrump], ['CLUBS', 'SPADES', 'HEARTS', 'DIAMONDS'])
   return (
     <div>
       <h3>Valitse valtti</h3>
       <div className="row">
-        {suits.map(valtti => (
-          <div className="col-md-1 col-xs-1" key={`suit-${valtti}`}>
-            <SvgImage name={`Suit${valtti}`} className="img-responsive" onClick={() => props.action({gameId:props.gameId, action:props.actionName, valtti})} />
+        {suits.map(suit => (
+          <div className="col-md-1 col-xs-1" key={`suit-${suit}`}>
+            <SvgImage name={`Suit${suit}`} className="img-responsive" onClick={() => props.action({gameId:props.gameId, action:props.actionName, suit})} />
           </div>
         ))}
       </div>
@@ -137,29 +137,17 @@ const KirvesGame = props => (
               action={props.action}
               actionName="SPEAK_SUIT"
               gameId={props.game.id}
-              currentValtti={props.game.valtti}
+              currentTrump={props.game.trump}
             />
           )}
-        </div>
-        {includes('ADJUST_PLAYERS_IN_GAME', props.game.myAvailableActions) && (
-          <div className="row">
-            <div className="col-md-6 col-xs-6">
-              <AdjustPlayersForm
-                onSubmit={props.adjustPlayers}
-                players={props.game.players}
-                adjustPlayersFormValues={props.adjustPlayersFormValues}
-                initialValues={{resetActivePlayers: false}}
-              />
-            </div>
+          <div className="col-md-4 col-xs-4 pull-right" >
+            <p>Viestit:</p>
+            <ul className="list-group" id="message-log">
+              {props.game.messages.reverse().map((message, index) => (
+                <li className="list-group-item" key={`li-${index}`}>{message}</li>
+              ))}
+            </ul>
           </div>
-        )}
-        <div className="row">
-          <div className="col-md-2 col-xs-2">Viesti:</div>
-          <div className="col-md-3 col-xs-3">{props.game.message}</div>
-        </div>
-        <div className="row">
-          <div className="col-md-2 col-xs-2">Pakka:</div>
-          <div className="col-md-2 col-xs-2">{props.game.cardsInDeck} korttia</div>
         </div>
         {props.game.cutCard && (
           <div className="row">
@@ -172,11 +160,11 @@ const KirvesGame = props => (
         )}
         <div className="row">
           <div className="col-md-2 col-xs-2">Valtti:</div>
-          {props.game.valttiKortti && ( 
-            <div className="col-md-1 col-xs-1"><SvgImage name={props.game.valttiKortti} className="img-responsive" /></div>
+          {props.game.trumpCard && ( 
+            <div className="col-md-1 col-xs-1"><SvgImage name={props.game.trumpCard} className="img-responsive" /></div>
           )}
-          {props.game.valtti && ( 
-            <div className="col-md-1 col-xs-1"><SvgImage name={`Suit${props.game.valtti}`} className="img-responsive opaque50" /></div>
+          {props.game.trump && ( 
+            <div className="col-md-1 col-xs-1"><SvgImage name={`Suit${props.game.trump}`} className="img-responsive opaque50" /></div>
           )}
         </div>
         <h4>Omat kortit:</h4>
@@ -290,8 +278,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     join: gameId => dispatch(joinGame(gameId)),
     refresh: gameId => dispatch(getGame(gameId)),
     action: params => dispatch(action(params)),
-    setValtti: form => dispatch(action({gameId:id, action:'SET_VALTTI', valtti: form.valtti, declarePlayerEmail: form.declarePlayerEmail})),
-    adjustPlayers: form => dispatch(action({gameId:id, action:'ADJUST_PLAYERS_IN_GAME', resetActivePlayers: form.resetActivePlayers, inactivateByEmail: pluck('value', form.inactivateByEmail)})),
     showAllCards: () => dispatch(showAllCards())
   }
 }
