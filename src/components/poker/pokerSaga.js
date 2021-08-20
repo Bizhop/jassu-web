@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { all, call, put, takeEvery } from 'redux-saga/effects'
 
 import Api from '../Api'
 import {
@@ -21,7 +21,7 @@ function* dealSaga() {
 
 function* actionSaga(action) {
   try {
-    const response = yield call(Api.post, `/api/poker/${action.params.game.gameId}`, {
+    const response = yield call(Api.post, `/api/poker/${action.params.game.id}`, {
       action: action.params.action,
       parameters: action.params.holds,
     })
@@ -32,7 +32,10 @@ function* actionSaga(action) {
 }
 
 function* pokerSaga() {
-  yield all([takeEvery(DEAL, dealSaga), takeEvery(ACTION, actionSaga)])
+  yield all([
+    takeEvery(DEAL, dealSaga),
+    takeEvery(ACTION, actionSaga)
+  ])
 }
 
 export default pokerSaga
