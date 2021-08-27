@@ -16,7 +16,13 @@ export const DELETE_GAME_FAILURE = 'kirves/DELETE_GAME_FAILURE'
 export const ACTION = 'kirves/ACTION'
 export const ACTION_SUCCESS = 'kirves/ACTION_SUCCESS'
 export const ACTION_FAILURE = 'kirves/ACTION_FAILURE'
+export const GET_LOG = 'kirves/GET_LOG'
+export const GET_LOG_SUCCESS = 'kirves/GET_LOG_SUCCESS'
+export const GET_LOG_FAILURE = 'kirves/GET_LOG_FAILURE'
 export const SHOW_ALL_CARDS = 'kirves/SHOW_ALL_CARDS'
+export const GET_REPLAY = 'kirves/GET_REPLAY'
+export const GET_REPLAY_SUCCESS = 'kirves/GET_REPLAY_SUCCESS'
+export const GET_REPLAY_FAILURE = 'kirves/GET_REPLAY_FAILURE'
 
 export const init = () => ({
   type: INIT,
@@ -63,17 +69,17 @@ export const getGamesFailure = error => ({
 
 export const deleteGame = gameId => ({
   type: DELETE_GAME,
-  gameId
+  gameId,
 })
 
 export const deleteGameSuccess = gameId => ({
   type: DELETE_GAME_SUCCESS,
-  gameId
+  gameId,
 })
 
 export const deleteGameFailure = error => ({
   type: DELETE_GAME_FAILURE,
-  error
+  error,
 })
 
 export const joinGame = gameId => ({
@@ -106,6 +112,36 @@ export const actionFailure = error => ({
   error,
 })
 
+export const getLog = params => ({
+  type: GET_LOG,
+  params,
+})
+
+export const getLogSuccess = response => ({
+  type: GET_LOG_SUCCESS,
+  response,
+})
+
+export const getLogFailure = error => ({
+  type: GET_LOG_FAILURE,
+  error,
+})
+
 export const showAllCards = () => ({
-  type: SHOW_ALL_CARDS
+  type: SHOW_ALL_CARDS,
+})
+
+export const getReplay = params => ({
+  type: GET_REPLAY,
+  params,
+})
+
+export const getReplaySuccess = response => ({
+  type: GET_REPLAY_SUCCESS,
+  response,
+})
+
+export const getReplayFailure = error => ({
+  type: GET_REPLAY_FAILURE,
+  error,
 })

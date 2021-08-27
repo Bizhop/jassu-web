@@ -1,0 +1,1 @@
+prettier --print-width 100 --no-semi --single-quote true --trailing-comma all --write 'src/**/*.js'

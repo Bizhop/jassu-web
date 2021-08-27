@@ -20,7 +20,13 @@ import {
   actionFailure,
   DELETE_GAME,
   deleteGameSuccess,
-  deleteGameFailure
+  deleteGameFailure,
+  GET_LOG,
+  getLogSuccess,
+  getLogFailure,
+  getReplaySuccess,
+  getReplayFailure,
+  GET_REPLAY,
 } from './kirvesActions'
 
 function* initSaga() {
@@ -62,7 +68,11 @@ function* joinGameSaga(action) {
 
 function* actionSaga(action) {
   try {
-    const response = yield call(Api.put, `api/kirves/${action.params.gameId}`, dissoc('gameId', action.params))
+    const response = yield call(
+      Api.put,
+      `api/kirves/${action.params.gameId}`,
+      dissoc('gameId', action.params),
+    )
   } catch (e) {
     yield put(actionFailure(e))
   }
@@ -77,6 +87,29 @@ function* deleteGameSaga(action) {
   }
 }
 
+function* getLogSaga(action) {
+  const params = action.params
+  try {
+    const response = yield call(Api.get, `api/kirves/${params.gameId}/${params.handId}`)
+    yield put(getLogSuccess(response))
+  } catch (e) {
+    yield put(getLogFailure(e))
+  }
+}
+
+function* getReplaySaga(action) {
+  const params = action.params
+  try {
+    const response = yield call(
+      Api.get,
+      `api/kirves/${params.gameId}/${params.handId}/${params.index}`,
+    )
+    yield put(getReplaySuccess(response))
+  } catch (e) {
+    yield put(getReplayFailure(e))
+  }
+}
+
 function* kirvesSaga() {
   yield all([
     takeEvery(INIT, initSaga),
@@ -84,7 +117,9 @@ function* kirvesSaga() {
     takeEvery(GET_GAMES, getGamesSaga),
     takeEvery(JOIN_GAME, joinGameSaga),
     takeEvery(ACTION, actionSaga),
-    takeEvery(DELETE_GAME, deleteGameSaga)
+    takeEvery(DELETE_GAME, deleteGameSaga),
+    takeEvery(GET_LOG, getLogSaga),
+    takeEvery(GET_REPLAY, getReplaySaga),
   ])
 }
 

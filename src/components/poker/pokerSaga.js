@@ -32,10 +32,7 @@ function* actionSaga(action) {
 }
 
 function* pokerSaga() {
-  yield all([
-    takeEvery(DEAL, dealSaga),
-    takeEvery(ACTION, actionSaga)
-  ])
+  yield all([takeEvery(DEAL, dealSaga), takeEvery(ACTION, actionSaga)])
 }
 
 export default pokerSaga

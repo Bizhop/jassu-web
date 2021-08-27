@@ -43,27 +43,27 @@ export const RenderSelectInput = ({ input, label, type, options, meta: { touched
   )
 }
 
-export const RenderMultiSelectInput = ({input, options, name, id, label}) => (
+export const RenderMultiSelectInput = ({ input, options, name, id, label }) => (
   <div className="form-group form-inline">
-      <div className="row">
-        <div className="col-md-3">
-          <label className="form-control-label pull-right" htmlFor={input.name}>
-            {label}
-          </label>
-        </div>
-        <div className="col-md-9">
-          <Select 
-            {...input}
-            id={id}
-            name={name}
-            options={options}
-            onChange={(value) => input.onChange(value)}
-            onBlur={() => {}}
-            isMulti
-          />
-        </div>
+    <div className="row">
+      <div className="col-md-3">
+        <label className="form-control-label pull-right" htmlFor={input.name}>
+          {label}
+        </label>
+      </div>
+      <div className="col-md-9">
+        <Select
+          {...input}
+          id={id}
+          name={name}
+          options={options}
+          onChange={value => input.onChange(value)}
+          onBlur={() => {}}
+          isMulti
+        />
       </div>
     </div>
+  </div>
 )
 
 export const RenderCheckbox = ({ input, label, type, meta: { touched, error } }) => (

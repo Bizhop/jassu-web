@@ -1,7 +1,15 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects'
 
 import Api from '../Api'
-import { LOGIN_REQUEST, loginSuccess, loginError, AUTO_LOGIN, UPDATE_REQUEST, updateSuccess, updateError } from './userActions'
+import {
+  LOGIN_REQUEST,
+  loginSuccess,
+  loginError,
+  AUTO_LOGIN,
+  UPDATE_REQUEST,
+  updateSuccess,
+  updateError,
+} from './userActions'
 
 function* loginSaga(action) {
   try {

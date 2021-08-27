@@ -32,15 +32,15 @@ export const logout = () => ({
 
 export const update = params => ({
   type: UPDATE_REQUEST,
-  params
+  params,
 })
 
 export const updateSuccess = user => ({
   type: UPDATE_SUCCESS,
-  user
+  user,
 })
 
 export const updateError = error => ({
   type: UPDATE_FAILURE,
-  error
+  error,
 })
