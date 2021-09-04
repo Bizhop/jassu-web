@@ -1,4 +1,4 @@
-import { path, pick, map, reject } from 'ramda'
+import { path, pathOr, pick, map, reject } from 'ramda'
 import { UPDATE_FAILURE } from '../user/userActions'
 
 import {
@@ -17,6 +17,7 @@ import {
   GET_LOG_FAILURE,
   GET_REPLAY_SUCCESS,
   GET_REPLAY_FAILURE,
+  GET_REPLAY,
 } from './kirvesActions'
 
 const initialState = {
@@ -27,6 +28,7 @@ const initialState = {
   logItems: [],
   logVisible: false,
   replay: null,
+  selectedLogIndex: 0,
 }
 
 const kirvesReducer = (state = initialState, action) => {
@@ -49,6 +51,11 @@ const kirvesReducer = (state = initialState, action) => {
           pick(['id', 'canJoin', 'players', 'lastHandId', 'createdAt', 'admin']),
           action.response,
         ),
+        logVisible: false,
+        logItems: [],
+        logId: '',
+        replay: null,
+        selectedLogIndex: 0,
       }
     case DELETE_GAME_SUCCESS:
       return {
@@ -74,6 +81,11 @@ const kirvesReducer = (state = initialState, action) => {
         logItems: [],
         logVisible: false,
         logId: '',
+      }
+    case GET_REPLAY:
+      return {
+        ...state,
+        selectedLogIndex: pathOr(0, ['params', 'index'], action),
       }
     case GET_REPLAY_SUCCESS:
       return {

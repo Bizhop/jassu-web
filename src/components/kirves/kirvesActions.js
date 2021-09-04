@@ -23,6 +23,9 @@ export const SHOW_ALL_CARDS = 'kirves/SHOW_ALL_CARDS'
 export const GET_REPLAY = 'kirves/GET_REPLAY'
 export const GET_REPLAY_SUCCESS = 'kirves/GET_REPLAY_SUCCESS'
 export const GET_REPLAY_FAILURE = 'kirves/GET_REPLAY_FAILURE'
+export const RESTORE_GAME = 'kirves/RESTORE_GAME'
+export const RESTORE_GAME_SUCCESS = 'kirves/RESTORE_GAME_SUCCESS'
+export const RESTORE_GAME_FAILURE = 'kirves/RESTORE_GAME_FAILURE'
 
 export const init = () => ({
   type: INIT,
@@ -143,5 +146,20 @@ export const getReplaySuccess = response => ({
 
 export const getReplayFailure = error => ({
   type: GET_REPLAY_FAILURE,
+  error,
+})
+
+export const restoreGame = params => ({
+  type: RESTORE_GAME,
+  params,
+})
+
+export const restoreGameSuccess = response => ({
+  type: RESTORE_GAME_SUCCESS,
+  response,
+})
+
+export const restoreGameFailure = error => ({
+  type: RESTORE_GAME_FAILURE,
   error,
 })

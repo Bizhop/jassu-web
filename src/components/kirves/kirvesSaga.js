@@ -27,6 +27,9 @@ import {
   getReplaySuccess,
   getReplayFailure,
   GET_REPLAY,
+  restoreGameSuccess,
+  restoreGameFailure,
+  RESTORE_GAME,
 } from './kirvesActions'
 
 function* initSaga() {
@@ -110,6 +113,17 @@ function* getReplaySaga(action) {
   }
 }
 
+function* restoreGameSaga(action) {
+  const params = action.params
+  try {
+    yield call(Api.post, `api/kirves/${params.gameId}/${params.handId}/${params.index}`)
+    yield put(restoreGameSuccess('Game restored'))
+    yield put(getGames())
+  } catch (e) {
+    yield put(restoreGameFailure(e))
+  }
+}
+
 function* kirvesSaga() {
   yield all([
     takeEvery(INIT, initSaga),
@@ -120,6 +134,7 @@ function* kirvesSaga() {
     takeEvery(DELETE_GAME, deleteGameSaga),
     takeEvery(GET_LOG, getLogSaga),
     takeEvery(GET_REPLAY, getReplaySaga),
+    takeEvery(RESTORE_GAME, restoreGameSaga),
   ])
 }
 

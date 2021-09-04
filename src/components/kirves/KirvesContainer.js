@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect, NavLink } from 'react-router-dom'
 import { path, pathOr } from 'ramda'
 
-import { init, getGames, deleteGame, getLog, getReplay } from './kirvesActions'
+import { init, getGames, deleteGame, getLog, getReplay, restoreGame } from './kirvesActions'
 import { autoLogin } from '../user/userActions'
 import { check, del, view, SvgImage } from '../shared/images'
 import { formatString } from '../shared/dateFormat'
@@ -14,10 +14,13 @@ const KirvesContainer = props => (
   <div className="container">
     <h1>Kirves</h1>
     <div className="row">
-      <div className="col-md-6 col-xs-6">
+      <div className="col-md-3 col-xs-3">
         <button onClick={() => props.init()} className="btn btn-primary">
           Aloita uusi peli
         </button>
+      </div>
+      <div className="col-md-3 col-xs-3">
+        <SvgImage name="refresh" width="20" height="20" onClick={() => props.refreshGames()} />
       </div>
     </div>
     <table className="table table-striped">
@@ -77,6 +80,7 @@ const KirvesContainer = props => (
               <th>Toiminto</th>
               <th>Lisätieto</th>
               <th>Näytä tilanne</th>
+              <th>Palauta tilanne</th>
             </tr>
           </thead>
           <tbody>
@@ -115,6 +119,22 @@ const KirvesContainer = props => (
                     }
                   />
                 </td>
+                <td>
+                  {props.selectedLogIndex == index && (
+                    <img
+                      src={check}
+                      width="20"
+                      height="20"
+                      onClick={() =>
+                        props.restoreGame({
+                          gameId: props.logId.gameId,
+                          handId: props.logId.handId,
+                          index,
+                        })
+                      }
+                    />
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -144,15 +164,18 @@ const mapStateToProps = state => ({
   logVisible: path(['kirves', 'logVisible'], state),
   logId: path(['kirves', 'logId'], state),
   replay: path(['kirves', 'replay'], state),
+  selectedLogIndex: pathOr(0, ['kirves', 'selectedLogIndex'], state),
 })
 
 const mapDispatchToProps = dispatch => ({
   autoLogin: dispatch(autoLogin()),
   getGames: dispatch(getGames()),
+  refreshGames: () => dispatch(getGames()),
   init: () => dispatch(init()),
   deleteGame: gameId => dispatch(deleteGame(gameId)),
   getLog: params => dispatch(getLog(params)),
   getReplay: params => dispatch(getReplay(params)),
+  restoreGame: params => dispatch(restoreGame(params)),
 })
 
 export default connect(
