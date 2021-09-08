@@ -7,6 +7,7 @@ import SockJsClient from 'react-stomp'
 import { getGame, joinGame, action, showAllCards } from './kirvesActions'
 import { autoLogin } from '../user/userActions'
 import RenderGame from './renderGame'
+import { SvgImage } from '../shared/images'
 
 const ActionButton = props => (
   <div className="col-md-2 col-xs-2">
