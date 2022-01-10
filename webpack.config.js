@@ -87,8 +87,13 @@ module.exports = {
     historyApiFallback: true,
     proxy: {
       "/api/*": {
-        target: "http://localhost:8181",
-        secure: false
+        // uncomment next two lines when using local backend for development
+        // target: "http://localhost:8181",
+        // secure: false
+
+        // uncomment next line when using heroku backend for develpoment
+        target: "https://jassu-backend.herokuapp.com",
+        changeOrigin: true
       }
     }
   }
